@@ -20,7 +20,10 @@
 						</div>
 					</div>
 					<div class="panel-body">
-						<form class="form-horizontal">
+						<div id="err"></div>
+						<form class="form-horizontal" id="add_product" enctype="multipart/form-data">
+							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>product/save">
+							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
                             <div class="form-group">
 								<label for="product_image" class="col-sm-2 control-label">Product Image</label>
 								<div class="col-sm-10">
@@ -42,20 +45,17 @@
 							<div class="form-group">
 								<label for="predefined" class="col-sm-2 control-label">Unit</label>
 								<div class="col-sm-10">
-									<select class="form-control">
-										<option>Default Select</option>
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
+									<select class="form-control" name="unit">
+										<option value="">Default Select</option>
+										<option value="kg">1</option>
+										<option value="bag">2</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="amount" class="col-sm-2 control-label">Amount</label>
+								<label for="price" class="col-sm-2 control-label">Price</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" id="amount" name="amount">
+									<input type="number" class="form-control" id="price" name="price">
 								</div>
 							</div>
 							<div class="form-group">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="btn-group pull-right mt-10" role="group">
                                 <button type="reset" class="btn btn-gray btn-wide"><i class="fa fa-refresh"></i>Reset</button>
-                                <button type="button" class="btn bg-black btn-wide"><i class="fa fa-arrow-right"></i>Submit</button>
+                                <button type="submit" class="btn bg-black btn-wide"><i class="fa fa-arrow-right"></i>Submit</button>
                             </div>
 						</form>
 						<!-- /.col-md-12 -->

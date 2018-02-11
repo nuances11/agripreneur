@@ -6,7 +6,7 @@
 			<span class="badge badge-warning pull-right">$155.00</span>
 		</a>
 	</div>
-	<ul id="sideManu" class="nav nav-tabs nav-stacked">
+	<ul id="sideManu" class="nav nav-tabs nav-stacked" style="display:inline;">
 		<li class="subMenu open">
 			<a> ELECTRONICS [230]</a>
 			<ul>

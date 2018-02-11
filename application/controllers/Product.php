@@ -21,17 +21,4 @@ class Product extends CI_Controller {
         $this->template->set_template('user');
     }
 
-    function add()
-	{
-		$this->template->load('user/product/add_product');
-    }
-    function list()
-	{
-        $extra_js = '
-            $("#products").DataTable();
-		';
-
-		$this->template->extra_js($extra_js);
-		$this->template->load('user/product/list_product');
-	}
 }

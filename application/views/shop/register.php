@@ -5,7 +5,7 @@
 			<div class="span9">
 				<ul class="breadcrumb">
 					<li>
-						<a href="shop">Home</a>
+						<a href="<?php echo base_url();?>shop">Home</a>
 						<span class="divider">/</span>
 					</li>
 					<li class="active">Registration</li>
@@ -24,8 +24,11 @@
 	 <div class="alert alert-block alert-error fade in">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<strong>Lorem Ipsum is simply</strong> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-	 </div> -->
-					<form class="form-horizontal">
+	 </div> -->		
+	 				<div id="err"></div>
+					<form class="form-horizontal" id="user_save">
+						<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>user/save">
+						<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
 						<h4>Your personal information</h4>
 						<div class="control-group">
 							<label class="control-label">Title
@@ -34,9 +37,9 @@
 							<div class="controls">
 								<select class="span1" name="title">
 									<option value="">-</option>
-									<option value="1">Mr.</option>
-									<option value="2">Mrs.</option>
-									<option value="3">Ms.</option>
+									<option value="Mr.">Mr.</option>
+									<option value="Mrs.">Mrs.</option>
+									<option value="Ms.">Ms.</option>
 								</select>
 							</div>
 						</div>
@@ -82,7 +85,6 @@
 						</div>
 						<div class="control-group">
 							<label class="control-label">Date of Birth
-								<sup>*</sup>
 							</label>
 							<div class="controls"> 
 								<select class="span1" name="day">
@@ -140,7 +142,7 @@
 								<sup>*</sup>
 							</label>
 							<div class="controls">
-                                <input type="text" id="address" placeholder="Adress" />
+                                <input type="text" id="address" placeholder="Adress" name="address"/>
                                 <input type="hidden" name="longitude" id="long">
                                 <input type="hidden" name="latitude" id="lat">
 							</div>
@@ -158,7 +160,7 @@
 
 						<div class="control-group">
 							<div class="controls">
-								<input class="btn btn-large btn-success" type="submit" value="Register" />
+								<input class="btn btn-large btn-success" type="submit" value="Register" id="save_user_btn" />
 							</div>
 						</div>
 					</form>

@@ -1,13 +1,14 @@
 <div class="row page-title-div">
 	<div class="col-md-6">
-		<h4 class="title">John Doe
+		<h4 class="title">
+			<?php echo ucfirst($user->fname) . ' ' . ucfirst($user->lname) ;?>
 			<small class="ml-10">My Profile</small>
 		</h4>
 		<p class="sub-title">One stop solution for perfect admin dashboard!</p>
 	</div>
 	<!-- /.col-md-6 -->
 	<div class="col-md-6 right-side">
-		
+
 	</div>
 	<!-- /.col-md-6 text-right -->
 </div>
@@ -49,13 +50,25 @@
 					<table class="table table-striped">
 						<tbody>
 							<tr>
-								<th><small>Sample Address</small></th>
+								<th>
+									<small>
+										<?php echo $user->address; ?>
+									</small>
+								</th>
 							</tr>
 							<tr>
-								<th><small>123456789</small></th>
+								<th>
+									<small>
+										<?php echo $user->mobile ;?>
+									</small>
+								</th>
 							</tr>
 							<tr>
-								<th><small>sample@sample.com</small></th>
+								<th>
+									<small>
+										<?php echo $user->email ;?>
+									</small>
+								</th>
 							</tr>
 						</tbody>
 					</table>
@@ -67,19 +80,30 @@
 	<!-- /.col-md-3 -->
 
 	<div class="col-md-9">
-			<div class="section-title">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61776.72449552751!2d120.94454009730856!3d14.596495689989908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca03571ec38b%3A0x69d1d5751069c11f!2sManila%2C+Metro+Manila!5e0!3m2!1sen!2sph!4v1517972026680" 
-                    width="100%" 
-                    height="500" 
-                    frameborder="0" 
-                    style="border:0" 
-                    allowfullscreen>
-                </iframe>
-			</div>
-			<!-- /.section-title -->
+		<div class="section-title">
+			<div id="map" style="height: 100%;"></div>
+			<script>
+				var map;
+
+				function initMap() {
+					map = new google.maps.Map(document.getElementById('map'), {
+						center: {
+							lat: -34.397,
+							lng: 150.644
+						},
+						zoom: 8
+					});
+				}
+
+			</script>
+			<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY;?>&callback=initMap">
+
+
+			</script>
 		</div>
+		<!-- /.section-title -->
 	</div>
-	<!-- /.col-md-9 -->
+</div>
+<!-- /.col-md-9 -->
 </div>
 <!-- /.row -->

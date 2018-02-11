@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<span class="icon-bar"></span>
 					</a>
 					<div class="navbar-inner">
-						<a class="brand" href="index.html">
+						<a class="brand" href="<?php echo base_url(); ?>">
 							<img src="<?php echo base_url(); ?>assets/images/agrilogo-2.png" alt="Agripreneur" />
 						</a>
 						<form class="form-inline navbar-search" method="post" action="products.html">
@@ -101,30 +101,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<a href="special_offer.html">Specials Offer</a>
 							</li>
 							<li class="">
-								<a href="#login" role="button" data-toggle="modal" style="padding-right:0">
+								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">
 									<span class="btn btn-large btn-success">Login</span>
 								</a>
-								<div id="login" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="false">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<h3>Login Block</h3>
-									</div>
-									<div class="modal-body">
-										<form class="form-horizontal loginFrm">
-											<div class="control-group">
-												<input type="text" id="inputEmail" placeholder="Email">
-											</div>
-											<div class="control-group">
-												<input type="password" id="inputPassword" placeholder="Password">
-											</div>
-											<p>
-												Not a member ? <a href="<?php echo base_url()?>shop/register">Register now</a>
-											</p>
-										</form>
-										<button type="submit" class="btn btn-success">Sign in</button>
-										<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-									</div>
-								</div>
 							</li>
 						</ul>
 					</div>

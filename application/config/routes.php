@@ -53,18 +53,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Shop Routes
  */
 $route['shop/product'] = 'shop/product_details';
+$route['shop/register'] = 'shop/register';
 
 /**
  * User Routes
  */
 $route['user'] = 'user';
+$route['login'] = 'user/login';
+$route['logout'] = 'user/logout';
+$route['user/user_login'] = 'user/user_login';
+$route['user/save'] = 'user/user_save';
+$route['user/edit'] = 'user/user_edit';
+$route['product/add'] = 'user/product_add';
+$route['product/save'] = 'user/product_save';
+$route['product/list'] = 'user/product_list';
 
 /**
  * Product routes
  */
-$route['product/add'] = 'product/add';
-$route['product/list'] = 'product/list';
+
 
 $route['default_controller'] = 'shop';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
