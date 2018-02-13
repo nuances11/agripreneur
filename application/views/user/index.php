@@ -81,25 +81,13 @@
 
 	<div class="col-md-9">
 		<div class="section-title">
-			<div id="map" style="height: 100%;"></div>
-			<script>
-				var map;
-
-				function initMap() {
-					map = new google.maps.Map(document.getElementById('map'), {
-						center: {
-							lat: -34.397,
-							lng: 150.644
-						},
-						zoom: 8
-					});
-				}
-
-			</script>
-			<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY;?>&callback=initMap">
-
-
-			</script>
+			<iframe 
+				width="100%" 
+				height="450" 
+				frameborder="0" 
+				style="border:0" 
+				src="https://www.google.com/maps/embed/v1/place?q=<?php echo $user->latitude ;?>,<?php echo $user->longitude ;?>&amp;key=AIzaSyDT27yLDYukOHojkm6ANP3OZ1kND7j7o-M">
+			</iframe>
 		</div>
 		<!-- /.section-title -->
 	</div>
