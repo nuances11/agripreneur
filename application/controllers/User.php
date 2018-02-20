@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends CI_Controller {
 
     function __construct(){
-        parent::__construct(); 
+        parent::__construct();
         $this->load->model('user_model');
 
         $styles = array(
@@ -14,10 +14,10 @@ class User extends CI_Controller {
             'assets/user/js/login.js',
             'assets/user/js/user.js',
 		);
-		
+
 		$this->template->set_additional_css($styles);
 		$this->template->set_additional_js($js);
-        
+
         //$this->_checkLogin();
         $this->template->set_title('User - Dashboard');
         $this->template->set_template('user');
@@ -28,7 +28,7 @@ class User extends CI_Controller {
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
 		$this->template->load('user/index');
     }
-    
+
     function login(){
         $this->template->set_template('login');
         $this->template->set_title('User - Login');
@@ -46,7 +46,7 @@ class User extends CI_Controller {
         //Load Libraries
         $this->load->library('form_validation');
         $this->load->helper('form');
-    
+
 
         $this->form_validation->set_rules('email','Email', 'required');
         $this->form_validation->set_rules('password','Password', 'required');
@@ -58,16 +58,27 @@ class User extends CI_Controller {
             echo json_encode($errors);
         }else{
             $user = $this->user_model->get_login_data($this->input->post('email'), sha1($this->input->post('password')));
-            $this->session->set_userdata( array(
-                'id' => $user->id,
-                'name'=> $user->fname . ' ' . $user->lname,
-                'email'=> $user->email,
-                'type'=> $user->type,
-                'isLoggedIn'=>true
-                )
-            );
+            if(!empty($user)){
+                $this->session->set_userdata( array(
+                    'id' => $user->id,
+                    'name'=> $user->fname . ' ' . $user->lname,
+                    'email'=> $user->email,
+                    'type'=> $user->type,
+                    'isLoggedIn'=>true
+                    )
+                );
+                if ($user->type == 'Admin') {
+                    echo json_encode(array("success" => TRUE, "userType" => 'Admin'));
+                }elseif ($user->type == 'User') {
+                    echo json_encode(array("success" => TRUE, "userType" => 'User'));
+                }else {
+                    echo json_encode(array("success" => FALSE));
+                }
+            }else {
+                echo json_encode(array("errors" => 'Invalid Username or Password'));
+            }
+            
 
-            echo json_encode(array("success" => TRUE));
         }
     }
 
@@ -87,7 +98,7 @@ class User extends CI_Controller {
 
 					longInput.value = longitude;
 					latInput.value = latitude;
-					
+
 
 				});
 			});
@@ -122,9 +133,9 @@ class User extends CI_Controller {
 
             echo json_encode($errors);
         }else{
-            
+
             $data = array(
-                
+
                 "type" => 'User',
                 "email" => $this->input->post('email'),
                 "password" => sha1($this->input->post('password')),
@@ -163,7 +174,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('product_name','Product Name', 'required');
         $this->form_validation->set_rules('quantity','Quantity', 'required');
         $this->form_validation->set_rules('unit','Unit', 'required');
-        $this->form_validation->set_rules('price','Price', 'required');
+        $this->form_validation->set_rules('amount','Amount', 'required');
         $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
         $this->form_validation->set_rules('product_availability','Product Availability', 'required');
         $this->form_validation->set_rules('description','Description', 'required');

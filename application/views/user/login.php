@@ -13,7 +13,7 @@
                                 <div id="err"></div>
                                 <form class="form-horizontal" id="user_login">
                                 <input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>user/user_login">
-						    <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
+						        <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
                                     <div class="form-group left-icon">
                                 		<label for="email" class="col-sm-3 control-label">Email Id</label>
                                 		<div class="col-sm-9">

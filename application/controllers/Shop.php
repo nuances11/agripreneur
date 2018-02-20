@@ -5,7 +5,7 @@ class Shop extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-		$this->load->model('user_model');
+
         $styles = array(
 
 		);
@@ -23,8 +23,6 @@ class Shop extends CI_Controller {
 
 	function index()
 	{
-		$this->template->load_sub("products", $this->user_model->get_products());
-        $this->template->load_sub("random_product", $this->user_model->get_rand_products());
 		$this->template->load('shop/index');
 	}
 
