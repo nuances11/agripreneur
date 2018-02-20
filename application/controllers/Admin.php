@@ -9,6 +9,7 @@ class Admin extends CI_Controller {
         $this->load->model('admin_model');
         $this->load->model('category_model');
         $this->load->model('subcategory_model');
+        $this->load->model('product_model');
 
         $styles = array(
 
@@ -55,7 +56,7 @@ class Admin extends CI_Controller {
         //Load Libraries
         $this->load->library('form_validation');
         $this->load->helper('form');
-        
+
 
         $this->form_validation->set_rules('category_name','Category Name', 'required');
         $this->form_validation->set_rules('category_identifier','Category Identifier', 'required|is_unique[tbl_category.category_identifier]');
@@ -88,7 +89,7 @@ class Admin extends CI_Controller {
     function category_edit($id)
     {
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
-        $this->template->load_sub('category', $this->category_model->get_category_info($id));        
+        $this->template->load_sub('category', $this->category_model->get_category_info($id));
         $this->template->load('admin/edit_category');
     }
 
@@ -97,7 +98,7 @@ class Admin extends CI_Controller {
         //Load Libraries
         $this->load->library('form_validation');
         $this->load->helper('form');
-        
+
 
         $this->form_validation->set_rules('category_name','Category Name', 'required');
         $this->form_validation->set_rules('category_identifier','Category Identifier', 'required');
@@ -150,7 +151,7 @@ class Admin extends CI_Controller {
         //Load Libraries
         $this->load->library('form_validation');
         $this->load->helper('form');
-        
+
         $this->form_validation->set_rules('category','Category', 'required');
         $this->form_validation->set_rules('subcategory_name','Sub Category Name', 'required');
         $this->form_validation->set_rules('subcategory_identifier','Sub Category Identifier', 'required|is_unique[tbl_sub_category.subcategory_identifier]');
@@ -185,7 +186,7 @@ class Admin extends CI_Controller {
     {
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
         $this->template->load_sub('categories', $this->category_model->get_category_data());
-        $this->template->load_sub('subcategory', $this->subcategory_model->get_subcategory_info($id));        
+        $this->template->load_sub('subcategory', $this->subcategory_model->get_subcategory_info($id));
         $this->template->load('admin/edit_sub_category');
     }
 
@@ -194,7 +195,7 @@ class Admin extends CI_Controller {
         //Load Libraries
         $this->load->library('form_validation');
         $this->load->helper('form');
-        
+
         $this->form_validation->set_rules('category','Category', 'required');
         $this->form_validation->set_rules('subcategory_name','Sub Category Name', 'required');
         $this->form_validation->set_rules('subcategory_identifier','Sub Category Identifier', 'required');
@@ -225,5 +226,120 @@ class Admin extends CI_Controller {
 
     }
 
-    
+    function sample_route()
+    {
+        print_r($this->user_model->get_user_data($this->session->userdata('id')));
+        exit;
+    }
+
+    function product()
+	{
+        $extra_js = '
+            $("#products").DataTable();
+		';
+
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('products', $this->product_model->fetch_all_products());
+		$this->template->load('admin/product/product');
+	}
+
+    function product_add()
+	{
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+		$this->template->load('admin/product/add_product');
+    }
+    function product_save()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->model('user_model');
+
+        $this->form_validation->set_rules('product_name','Product Name', 'required');
+        $this->form_validation->set_rules('quantity','Quantity', 'required');
+        $this->form_validation->set_rules('unit','Unit', 'required');
+        $this->form_validation->set_rules('amount','Amount', 'required');
+        $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
+        $this->form_validation->set_rules('product_availability','Product Availability', 'required');
+        $this->form_validation->set_rules('description','Description', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+            $data = array (
+                "user_id" => $this->session->userdata('id'),
+                "image" => '',
+                "name" => $this->input->post('product_name'),
+                "quantity" => $this->input->post('quantity'),
+                "unit" => $this->input->post('unit'),
+                "price" => $this->input->post('price'),
+                "harvest_date" => $this->input->post('harvest_date'),
+                "availability" => $this->input->post('product_availability'),
+                "description" => $this->input->post('description')
+            );
+
+            $res = $this->user_model->save_product($data);
+            if($res){
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
+    function product_add_category($id)
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('user_list', $this->user_model->get_all_users());
+        $this->template->load_sub('product', $this->product_model->get_product_data($id));
+        $this->template->load_sub('categories', $this->category_model->get_category_data());
+        $this->template->load('admin/product/category_product');
+    }
+
+    function category_list($id)
+    {
+        $res =  $this->subcategory_model->get_sub_categories($id);
+        echo json_encode($res);
+        // /echo json_encode($res);
+    }
+
+    function product_category_save()
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('category','Category', 'required');
+        $this->form_validation->set_rules('sub_category','Sub Category', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+            $data = array (
+                "category_id" => $this->input->post('category'),
+                "subcategory_id" => $this->input->post('sub_category'),
+                "product_id" => $this->input->post('product_id')
+            );
+
+            $res = $this->category_model->save_product_category($data);
+            if($res){
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Product category updated successfully!</div>');
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
+
+
+
 }

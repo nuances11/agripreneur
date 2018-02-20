@@ -49,7 +49,7 @@ $(function($) {
 	});
 
 	// Initialize panel controls
-	$('[data-panel-control]').lobiPanel();
+	//$('[data-panel-control]').lobiPanel();
 
 	// Visibility of source code button
 	$('.src-btn').hide();

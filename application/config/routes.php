@@ -76,6 +76,16 @@ $route['product/list'] = 'user/product_list';
   * Admin routes
   */
 $route['admin'] = 'admin';
+
+$route['admin/sample'] = 'admin/sample_route';
+//Add Product
+$route['admin/product'] = 'admin/product';
+$route['admin/product/add'] = 'admin/product_add';
+$route['admin/product/save'] = 'admin/product_save';
+$route['admin/product/category/add/(:num)'] = 'admin/product_add_category/$1';
+$route['admin/subcategory/list/(:num)'] = 'admin/category_list/$1';
+$route['admin/product/category/save'] = 'admin/product_category_save';
+
 // Category
 $route['admin/category'] = 'admin/category';
 $route['admin/category/add'] = 'admin/category_add';
@@ -92,4 +102,3 @@ $route['admin/subcategory/update'] = 'admin/sub_category_update';
 $route['default_controller'] = 'shop';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-

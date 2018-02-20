@@ -94,8 +94,9 @@
                                     <li class="nav-header">
                                         <span class="">Product</span>
                                     </li>
-                                    <li class=""><a href="<?php echo base_url(); ?>admin/product/add"><i class="fa fa-bars"></i> <span>Add Product</span></a></li>
-                                    <li class=""><a href="<?php echo base_url(); ?>admin/product/list"><i class="fa fa-bars"></i> <span>Product List</span></a></li>
+                                    <!-- <li class=""><a href="<?php echo base_url(); ?>admin/product/add"><i class="fa fa-bars"></i> <span>Add Product</span></a></li>
+                                    <li class=""><a href="<?php echo base_url(); ?>admin/product/list"><i class="fa fa-bars"></i> <span>Product List</span></a></li> -->
+                                    <li class=""><a href="<?php echo base_url(); ?>admin/product"><i class="fa fa-bars"></i> <span>Products</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/category"><i class="fa fa-bars"></i> <span>Category</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/subcategory"><i class="fa fa-bars"></i> <span>Sub-category</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/orders"><i class="fa fa-bars"></i> <span>Orders</span></a></li>
@@ -129,10 +130,25 @@
         <script src="<?php echo base_url(); ?>assets/user/js/jquery/jquery-2.2.4.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/jquery-ui/jquery-ui.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- ========== ADDITIONAL JS FILES ========== -->
+        <?php if(isset($add_js)){
+			foreach($add_js as $js){ ?>
+				<script src="<?php echo base_url() . $js; ?>"></script>
+			<?php }
+		}
+		if(isset($extra_js)){
+			?><script><?php
+			echo $extra_js;
+			?></script><?php
+		}
+
+		?>
+
         <script src="<?php echo base_url(); ?>assets/user/js/pace/pace.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/lobipanel/lobipanel.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/iscroll/iscroll.js"></script>
-        <!-- <script src="<?php echo base_url(); ?>assets/user/js/main.js"></script> -->
+        <script src="<?php echo base_url(); ?>assets/user/js/main.js"></script>
 
         <!-- ========== PAGE JS FILES ========== -->
         <script src="<?php echo base_url(); ?>assets/user/js/prism/prism.js"></script>
@@ -152,17 +168,3 @@
         <script src="<?php echo base_url(); ?>assets/user/js/traffic-chart.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/task-list.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/DataTables/datatables.min.js"></script>
-
-        <?php if(isset($add_js)){
-			foreach($add_js as $js){ ?>
-				<script src="<?php echo base_url() . $js; ?>"></script>
-			<?php }
-		}
-		if(isset($extra_js)){
-			?><script><?php
-			echo $extra_js;
-			?></script><?php
-		}
-
-		?>
-        <script>

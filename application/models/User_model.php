@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-	
+
 class User_model extends CI_Model {
     function __construct(){
         parent::__construct();
@@ -53,4 +53,42 @@ class User_model extends CI_Model {
 		}
 		return [];
     }
+
+	function get_all_users()
+	{
+		$this->db->select('*');
+        $this->db->from('tbl_user');
+        $this->db->where('type', 'User');
+        $query = $this->db->get();
+        if($query->num_rows()){
+			return $query->result();
+		}
+		return [];
+	}
+
+    function get_products()
+	{
+		$this->db->select('*');
+        $this->db->from('tbl_products');
+        $this->db->order_by('rand()');
+        $this->db->limit(4);
+        $query = $this->db->get();
+        if($query->num_rows()){
+			return $query->result();
+		}
+		return [];
+	}
+
+    function get_rand_products()
+	{
+		$this->db->select('*');
+        $this->db->from('tbl_products');
+        $this->db->order_by('rand()');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows()){
+			return $query->result();
+		}
+		return [];
+	}
 }

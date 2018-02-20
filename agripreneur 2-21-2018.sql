@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2018 at 12:44 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Generation Time: Feb 20, 2018 at 07:22 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.1.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -72,6 +74,29 @@ INSERT INTO `tbl_products` (`product_id`, `user_id`, `image`, `name`, `quantity`
 (1, 3, '', 'dasdasdasd', 312, 'kg', 3123123, '2018-02-14', '2018-02-15', 'asdsdasdasdasds', '2018-02-11 12:58:01', '2018-02-11 13:49:36'),
 (2, 3, '', 'dasdasd', 312312, 'kg', 3123123, '2018-02-08', '2018-02-13', 'dasdasdasdas', '2018-02-11 13:00:46', '2018-02-11 13:49:40'),
 (3, 3, '', 'dasdasd', 312312, 'kg', 3123123, '2018-02-08', '2018-02-13', 'dasdasdasdas', '2018-02-11 13:14:54', '2018-02-11 13:49:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_product_category`
+--
+
+CREATE TABLE `tbl_product_category` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `subcategory_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `timestamp_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp_updated` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_product_category`
+--
+
+INSERT INTO `tbl_product_category` (`id`, `category_id`, `subcategory_id`, `product_id`, `timestamp_created`, `timestamp_updated`) VALUES
+(1, 1, 1, 1, '2018-02-20 17:05:55', '0000-00-00 00:00:00'),
+(2, 1, 1, 2, '2018-02-20 17:10:08', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -147,6 +172,12 @@ ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`product_id`);
 
 --
+-- Indexes for table `tbl_product_category`
+--
+ALTER TABLE `tbl_product_category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_sub_category`
 --
 ALTER TABLE `tbl_sub_category`
@@ -167,21 +198,32 @@ ALTER TABLE `tbl_user`
 --
 ALTER TABLE `tbl_category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_product_category`
+--
+ALTER TABLE `tbl_product_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `tbl_sub_category`
 --
 ALTER TABLE `tbl_sub_category`
   MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

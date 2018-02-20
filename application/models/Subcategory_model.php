@@ -40,8 +40,20 @@ class Subcategory_model extends CI_Model {
     {
         $this->db->where('subcategory_id', $this->input->post('subcategory_id'));
         return $this->db->update('tbl_sub_category', $data);
-        
+
     }
 
-    
+    function get_sub_categories($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_sub_category');
+        $this->db->where('category_id', $id);
+        $query = $this->db->get();
+        if($query->num_rows()){
+			return $query->result();
+		}
+		return [];
+    }
+
+
 }

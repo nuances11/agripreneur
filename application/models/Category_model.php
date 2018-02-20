@@ -9,7 +9,7 @@ class Category_model extends CI_Model {
 
     function save_category($data)
     {
-        return $this->db->insert('tbl_category', $data); 
+        return $this->db->insert('tbl_category', $data);
     }
 
     function get_category_data()
@@ -39,7 +39,12 @@ class Category_model extends CI_Model {
     {
         $this->db->where('category_id', $this->input->post('category_id'));
         return $this->db->update('tbl_category', $data);
-        
+
     }
-    
+
+    function save_product_category($data)
+    {
+        return $this->db->insert(' tbl_product_category', $data);
+    }
+
 }
