@@ -1,12 +1,12 @@
+
+
 <div id="mainBody">
 	<div class="container">
 		<div class="row">
 			<?php $this->load->view('shop/sidebar'); ?>
 			<div class="span9">
 				<div class="well well-small">
-					<h4>Featured Products
-						<small class="pull-right">200+ featured products</small>
-					</h4>
+					<h4>Featured Products</h4>
 					<div class="row-fluid">
 						<div id="featured" class="carousel slide">
 							<div class="carousel-inner">
@@ -30,9 +30,9 @@
 														?>>
 													</a>
 													<div class="caption">
-														<h5><?php echo $product->name; ?></h5>
+														<h5><?php echo ucfirst($product->name); ?></h5>
 														<div class="text-center">
-															<a class="btn" href="<?php echo base_url() ;?>shop/product<?php echo $product->product_id ;?>">VIEW</a>
+															<a class="btn" href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">VIEW</a>
 															<span class="pull-right">PHP <?php echo number_format($product->price, 2);?></span>
 														</div>
 													</div>

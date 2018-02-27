@@ -6,6 +6,7 @@ class User extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model('user_model');
+        $this->load->model('product_model');
 
         $styles = array(
 
@@ -162,6 +163,7 @@ class User extends CI_Controller {
     function product_add()
 	{
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('units', $this->product_model->get_all_units());
 		$this->template->load('user/product/add_product');
     }
     function product_save()

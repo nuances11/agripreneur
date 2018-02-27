@@ -70,6 +70,7 @@ class User_model extends CI_Model {
 	{
 		$this->db->select('*');
         $this->db->from('tbl_products');
+        $this->db->where('status', '1');
         $this->db->order_by('rand()');
         $this->db->limit(4);
         $query = $this->db->get();
@@ -83,6 +84,7 @@ class User_model extends CI_Model {
 	{
 		$this->db->select('*');
         $this->db->from('tbl_products');
+        $this->db->where('status', '1');
         $this->db->order_by('rand()');
         $this->db->limit(1);
         $query = $this->db->get();
@@ -90,5 +92,32 @@ class User_model extends CI_Model {
 			return $query->result();
 		}
 		return [];
-	}
+    }
+
+    function get_categories_data()
+    {
+        $cat = array();
+        $subcat = array();
+        $this->db->select('*');
+        $this->db->from('tbl_category');
+        $this->db->where('category_status', '1');
+        $category = $this->db->get();
+        if($category->num_rows()){
+            $cat = $category->result_array();
+            return $cat;
+            // for ($i=0; $i < count($cat) ; $i++) { 
+                
+            //     $this->db->select('*');
+            //     $this->db->from('tbl_sub_category');
+            //     $this->db->where('subcategory_status', '1');
+            //     $this->db->where('category_id', $cat[$i]['category_id']);
+            //     $subcategory = $this->db->get();
+            //     $subcat = $subcategory->result_array();
+            //     return
+            // }
+            
+         }
+        return [];       
+        
+    }
 }

@@ -1,3 +1,4 @@
+
 <div class="row page-title-div">
 	<div class="col-md-6">
 		<h4 class="title">Add Product</h4>
@@ -22,8 +23,23 @@
 					<div class="panel-body">
 						<div id="err"></div>
 						<form class="form-horizontal" id="add_product" enctype="multipart/form-data">
-							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>product/save">
+							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>admin/product/save">
 							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
+							<div class="form-group">
+								<label for="user" class="col-sm-2 control-label">User</label>
+								<div class="col-sm-10">
+									<select class="form-control" name="user">
+										<option value="">Default Select</option>
+										<?php
+										foreach ($users as $u) {
+											?>
+											<option value="<?php echo $u->id;?>"><?php echo $u->fname . ' ' . $u->lname;?></option>
+											<?php
+										}
+										?>
+									</select>
+								</div>
+							</div>
                             <div class="form-group">
 								<label for="product_image" class="col-sm-2 control-label">Product Image</label>
 								<div class="col-sm-10">

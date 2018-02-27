@@ -81,25 +81,26 @@
 
 	<div class="col-md-9">
 		<div class="section-title">
-			<div id="map" style="height: 100%;"></div>
-			<script>
-				// var map;
-				//
-				// function initMap() {
-				// 	map = new google.maps.Map(document.getElementById('map'), {
-				// 		center: {
-				// 			lat: -34.397,
-				// 			lng: 150.644
-				// 		},
-				// 		zoom: 8
-				// 	});
-				// }
-
-			</script>
-			<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY;?>&callback=initMap"> -->
-
-
-			</script>
+			<iframe
+			  width="100%"
+			  height="600"
+			  frameborder="0"
+			  scrolling="no"
+			  marginheight="0"
+			  marginwidth="0"
+			  src="https://maps.google.com/maps?q=<?= $user->latitude ?>,<?= $user->longitude ?>&hl=es;z=14&amp;output=embed"
+			 >
+			 </iframe>
+			 <br />
+			 <small>
+			   <a
+			    href="https://maps.google.com/maps?q=<?= $user->latitude ?>,<?= $user->longitude ?>&hl=es;z=14&amp;output=embed"
+			    style="color:#0000FF;text-align:left"
+			    target="_blank"
+			   >
+			     See map bigger
+			   </a>
+			 </small>
 		</div>
 		<!-- /.section-title -->
 	</div>

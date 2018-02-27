@@ -100,6 +100,7 @@
                                     <li class=""><a href="<?php echo base_url(); ?>admin/category"><i class="fa fa-bars"></i> <span>Category</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/subcategory"><i class="fa fa-bars"></i> <span>Sub-category</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/orders"><i class="fa fa-bars"></i> <span>Orders</span></a></li>
+                                    <li class=""><a href="<?php echo base_url(); ?>admin/unit"><i class="fa fa-bars"></i> <span>Units</span></a></li>
 
                                     <li class="nav-header">
                                         <span class="">User</span>
@@ -137,11 +138,7 @@
 				<script src="<?php echo base_url() . $js; ?>"></script>
 			<?php }
 		}
-		if(isset($extra_js)){
-			?><script><?php
-			echo $extra_js;
-			?></script><?php
-		}
+		
 
 		?>
 
@@ -168,3 +165,11 @@
         <script src="<?php echo base_url(); ?>assets/user/js/traffic-chart.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/task-list.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/DataTables/datatables.min.js"></script>
+
+        <?php
+        if(isset($extra_js)){
+			?><script><?php
+			echo $extra_js;
+			?></script><?php
+        }
+        ?>

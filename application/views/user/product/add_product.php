@@ -47,8 +47,13 @@
 								<div class="col-sm-10">
 									<select class="form-control" name="unit">
 										<option value="">Default Select</option>
-										<option value="kg">1</option>
-										<option value="bag">2</option>
+										<?php 
+											foreach ($units as $unit) {
+												?>
+													<option value="<?php echo $unit->unit_id; ?>"><?php echo $unit->unit_name;?></option>
+												<?php
+											}
+										?>
 									</select>
 								</div>
 							</div>

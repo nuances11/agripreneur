@@ -247,6 +247,7 @@ class Admin extends CI_Controller {
     function product_add()
 	{
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('users', $this->user_model->get_all_users());
 		$this->template->load('admin/product/add_product');
     }
     function product_save()
@@ -332,6 +333,55 @@ class Admin extends CI_Controller {
             $res = $this->category_model->save_product_category($data);
             if($res){
                 $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Product category updated successfully!</div>');
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
+    function unit()
+    {
+        $extra_js = '
+            $("#units").DataTable();
+		';
+        $this->template->load_sub('units', $this->product_model->get_all_units());
+        $this->template->extra_js($extra_js);
+        $this->template->load('admin/product/unit');
+    }
+
+    function unit_add()
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load('admin/product/add_unit');
+    }
+
+    function unit_save()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('unit_name','Unit Name', 'required');
+        $this->form_validation->set_rules('unit_identifier','Unit Identifier', 'required');
+        $this->form_validation->set_rules('status','Status', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+            $data = array (
+                "unit_name" => $this->input->post('unit_name'),
+                "unit_identifier" => $this->input->post('unit_identifier'),
+                "status" => $this->input->post('status')
+            );
+
+            $res = $this->product_model->save_unit($data);
+            if($res){
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Unit added successfully!</div>');
                 echo json_encode(array("success" => TRUE));
             }else{
                 echo json_encode(array("success" => FALSE));
