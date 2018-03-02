@@ -11,12 +11,26 @@ class Product_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('tbl_products');
-        $this->db->join('tbl_product_category', 'tbl_product_category.product_id = tbl_products.product_id','left outer');
-        $this->db->join('tbl_category', 'tbl_category.category_id = tbl_product_category.category_id','left outer');
-        $this->db->join('tbl_sub_category', 'tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id','left outer');
-        $query = $this->db->get();
-        if($query->num_rows() > 0){
-            return $query->result();
+        // $this->db->join('tbl_product_category', 'tbl_product_category.product_id = tbl_products.product_id','left outer');
+        // $this->db->join('tbl_category', 'tbl_category.category_id = tbl_product_category.category_id','left outer');
+        // $this->db->join('tbl_sub_category', 'tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id','left outer');
+        $product = $this->db->get();
+        if($product->num_rows() > 0){
+            foreach ($product->result() as $item) {
+                $this->db->select('*');
+                $this->db->from('tbl_product_category');
+                $this->db->join('tbl_category','tbl_category.category_id = tbl_product_category.category_id');
+                $this->db->join('tbl_sub_category','tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id');
+                $this->db->where('tbl_product_category.product_id', $item->product_id);
+                $category = $this->db->get();
+                $category_info = $category->result();
+                // $product->category = $category_info['category_name'];
+                // $product->subcategory = $category_info['subcategory_name'];
+                // echo '<pre>';
+                // print_r($category_info);
+                // echo '</pre>';
+                // exit;
+            }
          }
          return [];
 

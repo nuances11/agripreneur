@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Shop Routes
  */
-$route['shop/product/(:num)'] = 'shop/product_details/$1'; 
+$route['shop/product/(:num)'] = 'shop/product_details/$1';
 $route['shop/register'] = 'shop/register';
 
 

@@ -248,6 +248,7 @@ class Admin extends CI_Controller {
 	{
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
         $this->template->load_sub('users', $this->user_model->get_all_users());
+        $this->template->load_sub('units', $this->product_model->get_all_units());
 		$this->template->load('admin/product/add_product');
     }
     function product_save()
@@ -260,7 +261,7 @@ class Admin extends CI_Controller {
         $this->form_validation->set_rules('product_name','Product Name', 'required');
         $this->form_validation->set_rules('quantity','Quantity', 'required');
         $this->form_validation->set_rules('unit','Unit', 'required');
-        $this->form_validation->set_rules('amount','Amount', 'required');
+        $this->form_validation->set_rules('price','Price', 'required');
         $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
         $this->form_validation->set_rules('product_availability','Product Availability', 'required');
         $this->form_validation->set_rules('description','Description', 'required');
@@ -273,7 +274,7 @@ class Admin extends CI_Controller {
             echo json_encode($errors);
         }else{
             $data = array (
-                "user_id" => $this->session->userdata('id'),
+                "user_id" => $this->input->post('user'),
                 "image" => '',
                 "name" => $this->input->post('product_name'),
                 "quantity" => $this->input->post('quantity'),

@@ -78,7 +78,7 @@ class User extends CI_Controller {
             }else {
                 echo json_encode(array("errors" => 'Invalid Username or Password'));
             }
-            
+
 
         }
     }
@@ -176,7 +176,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('product_name','Product Name', 'required');
         $this->form_validation->set_rules('quantity','Quantity', 'required');
         $this->form_validation->set_rules('unit','Unit', 'required');
-        $this->form_validation->set_rules('amount','Amount', 'required');
+        $this->form_validation->set_rules('price','Price', 'required');
         $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
         $this->form_validation->set_rules('product_availability','Product Availability', 'required');
         $this->form_validation->set_rules('description','Description', 'required');

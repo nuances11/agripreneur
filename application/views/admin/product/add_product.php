@@ -20,9 +20,9 @@
 							<h5>Basic Input Fields</h5>
 						</div>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body"> 
 						<div id="err"></div>
-						<form class="form-horizontal" id="add_product" enctype="multipart/form-data">
+						<form class="form-horizontal" id="admin_add_product" enctype="multipart/form-data">
 							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>admin/product/save">
 							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
 							<div class="form-group">
@@ -63,8 +63,13 @@
 								<div class="col-sm-10">
 									<select class="form-control" name="unit">
 										<option value="">Default Select</option>
-										<option value="kg">1</option>
-										<option value="bag">2</option>
+										<?php
+											foreach ($units as $unit) {
+												?>
+													<option value="<?php echo $unit->unit_id; ?>"><?php echo $unit->unit_name;?></option>
+												<?php
+											}
+										?>
 									</select>
 								</div>
 							</div>

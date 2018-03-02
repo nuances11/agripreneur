@@ -13,7 +13,7 @@
                 <?php
                     if(!empty($this->cart->contents())){
                         ?>
-                        
+
                         <h3> SHOPPING CART [
                             <?php echo $this->cart->total_items();?> Item(s) ]
                             <a href="<?php echo base_url();?>" class="btn btn-large pull-right">

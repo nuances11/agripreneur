@@ -58,7 +58,7 @@
 												<td><?php echo $unit->unit_name ;?></td>
                                                 <td><?php echo $unit->unit_identifier ;?></td>
                                                 <td>
-                                                <?php 
+                                                <?php
                                                     if ($unit->status == '1') {
                                                         ?>
                                                             <span class="label label-success label-rounded">Active</span>

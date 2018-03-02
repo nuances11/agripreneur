@@ -45,7 +45,7 @@ $(function() {
         } else {
             return false; // cancel button
         }
-        
+
     })
 
     $('#btn-plus').click(function(){

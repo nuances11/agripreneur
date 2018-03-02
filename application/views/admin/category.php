@@ -58,7 +58,7 @@
                                             <td><?php echo $category->category_name;?></td>
                                             <td><?php echo $category->category_identifier;?></td>
                                             <td>
-                                                <?php 
+                                                <?php
                                                     if ($category->category_status == '1') {
                                                         ?>
                                                             <span class="label label-success label-rounded">Active</span>

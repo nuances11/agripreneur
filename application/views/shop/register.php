@@ -24,7 +24,7 @@
 	 <div class="alert alert-block alert-error fade in">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<strong>Lorem Ipsum is simply</strong> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-	 </div> -->		
+	 </div> -->
 	 				<div id="err"></div>
 					<form class="form-horizontal" id="user_save">
 						<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>user/save">
@@ -86,7 +86,7 @@
 						<div class="control-group">
 							<label class="control-label">Date of Birth
 							</label>
-							<div class="controls"> 
+							<div class="controls">
 								<select class="span1" name="day">
 									<option value="">--</option>
                                     <?php
@@ -96,7 +96,7 @@
                                         }
                                     ?>
 								</select>
-								<select class="span1" name="month"> 
+								<select class="span1" name="month">
                                     <option value="">--</option>
                                     <?php
                                         for($m=1; $m<=12; ++$m){
@@ -149,7 +149,10 @@
 						</div>
 
 						<div class="control-group">
-							<label class="control-label" for="mobile">Mobile Phone </label>
+							<label class="control-label" for="mobile">Mobile Phone
+								<sup>*</sup>
+							</label>
+
 							<div class="controls">
 								<input type="text" name="mobile" id="mobile" placeholder="Mobile Phone" />
 							</div>
@@ -170,4 +173,5 @@
 		</div>
 	</div>
 </div>
+
 <!-- MainBody End ============================= -->

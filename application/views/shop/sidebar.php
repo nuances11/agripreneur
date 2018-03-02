@@ -3,12 +3,12 @@
 	<div class="well well-small">
 		<a id="myCart" href="<?php echo base_url();?>cart/view">
 			<img src="<?php echo base_url() ?>assets/images/ico-cart.png" alt="cart">
-			
+
 			<?php
 				$count = 0;
 				if(!empty($this->cart->contents())){
 					$total = $this->cart->total_items();
-					echo $total;		
+					echo $total;
 				}else echo 'No';
 			?>
 			Item(s)
@@ -24,7 +24,7 @@
 		</a>
 	</div>
 	<ul id="sideManu" class="nav nav-tabs nav-stacked" style="display:inline;">
-		<?php 
+		<?php
 		foreach ($categories as $category) {
 			?>
 				<li class="subMenu open">

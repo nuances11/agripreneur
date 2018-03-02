@@ -53,7 +53,7 @@
                                 </select>
 							</div>
                             <div class="form-group" id="sub-category">
-								<label for="sub_category">Category</label>
+								<label for="sub_category">Sub Category</label>
 								<select class="form-control" name="sub_category" id="sub_category">
                                 </select>
 							</div>

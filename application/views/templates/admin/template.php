@@ -40,7 +40,7 @@
             	<div class="container-fluid">
                     <div class="row">
                         <div class="navbar-header no-padding">
-                			<a class="navbar-brand" href="<?php echo base_url(); ?>user">
+                			<a class="navbar-brand" href="<?php echo base_url(); ?>admin">
                 			    <img src="<?php echo base_url(); ?>assets/images/agrilogo-2.png" alt="AGRIPRENEUR" class="logo">
                 			</a>
                             <span class="small-nav-handle hidden-sm hidden-xs"><i class="fa fa-outdent"></i></span>
@@ -138,7 +138,7 @@
 				<script src="<?php echo base_url() . $js; ?>"></script>
 			<?php }
 		}
-		
+
 
 		?>
 

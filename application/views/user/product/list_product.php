@@ -19,7 +19,9 @@
 						</div>
 					</div>
 					<div class="panel-body p-20">
-
+						<?php if($this->session->flashdata('success')){
+                            echo $this->session->flashdata('success');
+                        } ?>
 						<table id="products" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 							<thead>
 								<tr>

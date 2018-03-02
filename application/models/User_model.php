@@ -104,20 +104,9 @@ class User_model extends CI_Model {
         $category = $this->db->get();
         if($category->num_rows()){
             $cat = $category->result_array();
-            return $cat;
-            // for ($i=0; $i < count($cat) ; $i++) { 
-                
-            //     $this->db->select('*');
-            //     $this->db->from('tbl_sub_category');
-            //     $this->db->where('subcategory_status', '1');
-            //     $this->db->where('category_id', $cat[$i]['category_id']);
-            //     $subcategory = $this->db->get();
-            //     $subcat = $subcategory->result_array();
-            //     return
-            // }
-            
+            return $cat;            
          }
-        return [];       
-        
+        return [];
+
     }
 }

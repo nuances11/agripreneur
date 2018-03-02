@@ -120,7 +120,7 @@
 								<hr class="soft" />
 								<div class="tab-content">
 									<div class="tab-pane" id="listView">
-										<?php 
+										<?php
 											foreach ($related_products as $rp) {
 												?>
 												<div class="row">

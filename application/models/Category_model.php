@@ -44,7 +44,14 @@ class Category_model extends CI_Model {
 
     function save_product_category($data)
     {
-        return $this->db->insert(' tbl_product_category', $data);
+        $res = $this->db->insert(' tbl_product_category', $data);
+        if ($res) {
+            $prod = array(
+                    'status' => 1
+            );
+            $this->db->where('product_id', $data['product_id']);
+            return $this->db->update('tbl_products', $prod);
+        }
     }
 
 }

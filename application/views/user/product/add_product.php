@@ -47,7 +47,7 @@
 								<div class="col-sm-10">
 									<select class="form-control" name="unit">
 										<option value="">Default Select</option>
-										<?php 
+										<?php
 											foreach ($units as $unit) {
 												?>
 													<option value="<?php echo $unit->unit_id; ?>"><?php echo $unit->unit_name;?></option>

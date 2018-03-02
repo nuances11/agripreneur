@@ -5,8 +5,8 @@ class Shop extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-		$this->load->model('user_model'); 
-		$this->load->model('product_model'); 
+		$this->load->model('user_model');
+		$this->load->model('product_model');
         $styles = array(
 
 		);
@@ -74,5 +74,5 @@ class Shop extends CI_Controller {
 		$this->template->load_sub("categories", $this->user_model->get_categories_data());
 		$this->template->load('shop/shopping_cart');
 	}
-}
 
+}

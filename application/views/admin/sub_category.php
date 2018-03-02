@@ -53,7 +53,7 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <?php 
+                                <?php
                                     foreach ($sub_categories as $sub_category) {
                                         ?>
                                         <tr>
@@ -61,7 +61,7 @@
                                             <td><?php echo $sub_category->subcategory_name;?></td>
                                             <td><?php echo $sub_category->subcategory_identifier;?></td>
                                             <td>
-                                                <?php 
+                                                <?php
                                                     if ($sub_category->subcategory_status == '1') {
                                                         ?>
                                                             <span class="label label-success label-rounded">Active</span>

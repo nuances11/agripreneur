@@ -7,5 +7,5 @@ class Admin_model extends CI_Model {
             $this->load->database();
     }
 
-    
+
 }

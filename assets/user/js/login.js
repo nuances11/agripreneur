@@ -17,8 +17,7 @@ $(function() {
                 if (!data.success) {
                     $('#err').html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' + data.errors + '</div>');
                 } else {
-                    if (!data.invalid_login) {
-                        console.log(data);
+                    if (!data.invalid_login) { 
                         if (data.userType == 'Admin') {
                             window.location.href = base_url + 'admin';
                         } else if (data.userType == 'User') {

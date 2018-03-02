@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			foreach($additional_css as $css){
 			  echo link_tag($css);
 			}
-		} ?>		
+		} ?>
 	</head>
 
 	<body>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</form>
 						<ul id="topMenu" class="nav pull-right">
 							<li class="">
-								<a href="special_offer.html">Specials Offer</a>
+								<a href="<?php echo base_url();?>downloads/agripreneur_personal_data_sheet.pdf" download="agripreneur_personal_data_sheet.pdf"> Download PDS </a>
 							</li>
 							<li class="">
 								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">
@@ -162,13 +162,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			foreach($add_js as $js){ ?>
 				<script src="<?php echo base_url() . $js; ?>"></script>
 			<?php }
-		} 
+		}
 		if(isset($extra_js)){
 			?><script><?php
 			echo $extra_js;
 			?></script><?php
 		}
-		
+
 		?>
 
 
