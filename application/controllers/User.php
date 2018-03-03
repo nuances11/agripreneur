@@ -22,18 +22,13 @@ class User extends CI_Controller {
         //$this->_checkLogin();
         $this->template->set_title('User - Dashboard');
         $this->template->set_template('user');
+
     }
 
     function index()
 	{
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
 		$this->template->load('user/index');
-    }
-
-    function login(){
-        $this->template->set_template('login');
-        $this->template->set_title('User - Login');
-        $this->template->load('user/login');
     }
 
     function logout()
@@ -108,56 +103,6 @@ class User extends CI_Controller {
 		$this->template->extra_js($extra_js);
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
 		$this->template->load('user/edit_profile');
-    }
-
-    function user_save()
-    {
-        //Load Libraries
-        $this->load->library('form_validation');
-        $this->load->helper('form');
-        $this->load->model('user_model');
-        $this->template->set_title('User - Register');
-
-
-        $this->form_validation->set_rules('title','Title', 'required');
-        $this->form_validation->set_rules('fname','First Name', 'required');
-        $this->form_validation->set_rules('lname','Last Name', 'required');
-        $this->form_validation->set_rules('email','Email Address','required|valid_email|is_unique[tbl_user.email]');
-        $this->form_validation->set_rules('password','Password', 'required|min_length[8]');
-        $this->form_validation->set_rules('cpassword', 'Password Confirmation', 'required|matches[password]');
-        $this->form_validation->set_rules('address','Address', 'required');
-        if ($this->form_validation->run() == FALSE) {
-            $errors = array(
-                "errors" => validation_errors(),
-                "success" => FALSE
-            );
-
-            echo json_encode($errors);
-        }else{
-
-            $data = array(
-
-                "type" => 'User',
-                "email" => $this->input->post('email'),
-                "password" => sha1($this->input->post('password')),
-                "title" => $this->input->post('title'),
-                "fname" => $this->input->post('fname'),
-                "lname" => $this->input->post('lname'),
-                "gender" => $this->input->post('gender'),
-                "birthday" => $this->input->post('day') . '-' .  $this->input->post('month') . '-' . $this->input->post('year'),
-                "address" => $this->input->post('address'),
-                "longitude" => $this->input->post('longitude'),
-                "latitude" => $this->input->post('latitude'),
-                "mobile" => $this->input->post('mobile')
-            );
-
-            $res = $this->user_model->save_user($data);
-            if($res){
-                echo json_encode(array("success" => TRUE));
-            }else{
-                echo json_encode(array("success" => FALSE));
-            }
-        }
     }
 
     function product_add()

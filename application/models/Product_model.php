@@ -9,51 +9,47 @@ class Product_model extends CI_Model {
 
     function fetch_all_products()
     {
-        $this->db->select('*');
-        $this->db->from('tbl_products');
-        // $this->db->join('tbl_product_category', 'tbl_product_category.product_id = tbl_products.product_id','left outer');
-        // $this->db->join('tbl_category', 'tbl_category.category_id = tbl_product_category.category_id','left outer');
-        // $this->db->join('tbl_sub_category', 'tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id','left outer');
-        $product = $this->db->get();
-        if($product->num_rows() > 0){
-            foreach ($product->result() as $item) {
-                $this->db->select('*');
-                $this->db->from('tbl_product_category');
-                $this->db->join('tbl_category','tbl_category.category_id = tbl_product_category.category_id');
-                $this->db->join('tbl_sub_category','tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id');
-                $this->db->where('tbl_product_category.product_id', $item->product_id);
-                $category = $this->db->get();
-                $category_info = $category->result();
-                // $product->category = $category_info['category_name'];
-                // $product->subcategory = $category_info['subcategory_name'];
-                // echo '<pre>';
-                // print_r($category_info);
-                // echo '</pre>';
-                // exit;
-            }
-         }
-         return [];
-
-
-        // $this->db->select('*');
-        // $this->db->from('tbl_products');
-        // $query = $this->db->get();
-        // if($query->num_rows() > 0){
-        //     return $query->result();
-        // }
-        // return [];
+        $query = $this->db->query("
+            SELECT 
+                p.product_id,
+                p.name,
+                p.status,
+                pc.category_id,
+                pc.subcategory_id,
+                c.category_name,
+                sc.subcategory_name
+            FROM tbl_products p
+            LEFT JOIN tbl_product_category pc
+            ON p.product_id = pc.product_id
+            LEFT JOIN tbl_category c
+            ON c.category_id = pc.category_id
+            LEFT JOIN tbl_sub_category sc
+            ON sc.subcategory_id = pc.subcategory_id
+        ");
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return [];
     }
 
-    function get_product_data($id)
+    function get_product_data($id) 
     {
-        $this->db->select('*');
-        $this->db->from('tbl_products');
-        $this->db->join('tbl_product_category', 'tbl_product_category.product_id = tbl_products.product_id','left outer');
-        $this->db->join('tbl_category', 'tbl_category.category_id = tbl_product_category.category_id','left outer');
-        $this->db->join('tbl_sub_category', 'tbl_sub_category.subcategory_id = tbl_product_category.subcategory_id','left outer');
-        $this->db->where('tbl_products.product_id', $id);
-        $this->db->where('tbl_products.status', '1');
-        $query = $this->db->get();
+        $query = $this->db->query("
+            SELECT 
+                p.*,
+                pc.category_id,
+                pc.subcategory_id,
+                c.category_name,
+                sc.subcategory_name
+            FROM tbl_products p
+            LEFT JOIN tbl_product_category pc
+            ON p.product_id = pc.product_id
+            LEFT JOIN tbl_category c
+            ON c.category_id = pc.category_id
+            LEFT JOIN tbl_sub_category sc
+            ON sc.subcategory_id = pc.subcategory_id
+            WHERE p.product_id = $id
+        ");
         if($query->num_rows() > 0){
             return $query->row();
         }
@@ -109,4 +105,21 @@ class Product_model extends CI_Model {
         return [];
     }
 
+    function activate_product($id)
+    {
+        $data = array(
+            'status' => 1
+        );
+        $this->db->where('product_id', $id);
+        return $this->db->update('tbl_products', $data);
+    }
+
+    function deactivate_product($id)
+    {
+        $data = array(
+            'status' => 0
+        );
+        $this->db->where('product_id', $id);
+        return $this->db->update('tbl_products', $data);
+    }
 }

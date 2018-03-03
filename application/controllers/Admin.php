@@ -18,6 +18,8 @@ class Admin extends CI_Controller {
             'assets/user/js/login.js',
             'assets/user/js/user.js',
             'assets/user/js/admin.js',
+            'assets/user/js/switchery/switchery.min.js'
+
 		);
 
 		$this->template->set_additional_css($styles);
@@ -26,6 +28,7 @@ class Admin extends CI_Controller {
         //$this->_checkLogin();
         $this->template->set_title('Admin - Dashboard');
         $this->template->set_template('admin');
+
     }
 
     function index()
@@ -236,6 +239,12 @@ class Admin extends CI_Controller {
 	{
         $extra_js = '
             $("#products").DataTable();
+
+            var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
+
+            elems.forEach(function(html) {
+                var switchery = new Switchery(html);
+            });
 		';
 
         $this->template->extra_js($extra_js);
@@ -296,6 +305,15 @@ class Admin extends CI_Controller {
 
     function product_add_category($id)
     {
+        $extra_js = '
+            var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
+
+            elems.forEach(function(html) {
+                var switchery = new Switchery(html);
+            });
+		';
+
+        $this->template->extra_js($extra_js);
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
         $this->template->load_sub('user_list', $this->user_model->get_all_users());
         $this->template->load_sub('product', $this->product_model->get_product_data($id));
@@ -387,6 +405,24 @@ class Admin extends CI_Controller {
             }else{
                 echo json_encode(array("success" => FALSE));
             }
+        }
+    }
+
+    function product_activate($id)
+    {
+        $res = $this->product_model->activate_product($id);
+        if ($res) {
+            $this->session->set_flashdata('activate', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Product is now active!</div>');
+            $this->product();
+        }
+    }
+
+    function product_deactivate($id)
+    {
+        $res = $this->product_model->deactivate_product($id);
+        if ($res) {
+            $this->session->set_flashdata('activate', '<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Product is now inactive!</div>');
+            $this->product();
         }
     }
 

@@ -68,15 +68,18 @@ class User_model extends CI_Model {
 
     function get_products()
 	{
-		$this->db->select('*');
-        $this->db->from('tbl_products');
-        $this->db->where('status', '1');
-        $this->db->order_by('rand()');
-        $this->db->limit(4);
-        $query = $this->db->get();
-        if($query->num_rows()){
-			return $query->result();
-		}
+        $curr_date = date("Y-m-d");
+        $query = $this->db->query("
+            SELECT *
+            FROM tbl_products
+            WHERE availability >= $curr_date
+            AND status = 1
+            ORDER BY rand()
+            LIMIT 4
+        ");
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
 		return [];
 	}
 
@@ -94,17 +97,23 @@ class User_model extends CI_Model {
 		return [];
     }
 
-    function get_categories_data()
+    function get_categories_data() 
     {
-        $cat = array();
-        $subcat = array();
         $this->db->select('*');
         $this->db->from('tbl_category');
         $this->db->where('category_status', '1');
         $category = $this->db->get();
         if($category->num_rows()){
-            $cat = $category->result_array();
-            return $cat;            
+            $_category = $category->result();
+            foreach ($category->result() as $item) {
+                $this->db->select('*');
+                $this->db->from('tbl_sub_category');
+                $this->db->where('category_id', $item->category_id);
+                $subcategory = $this->db->get();
+                $_subcategory = $subcategory->result();
+                $item->subcategory = $_subcategory;
+            }
+            return $category->result();
          }
         return [];
 

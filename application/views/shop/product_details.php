@@ -81,7 +81,7 @@
 											<th colspan="2">Product Details</th>
 										</tr>
 										<tr class="techSpecRow">
-											<td class="techSpecTD1">Producer: </td>
+											<td class="techSpecTD1">Producer: </td> 
 											<td class="techSpecTD2"><?php echo $producer->title. ' ' . ucfirst($producer->fname). ' ' . ucfirst($producer->lname)  ?></td>
 										</tr>
 										<tr class="techSpecRow">

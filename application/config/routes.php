@@ -54,16 +54,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $route['shop/product/(:num)'] = 'shop/product_details/$1';
 $route['shop/register'] = 'shop/register';
+$route['login'] = 'shop/login';
+$route['user/user_login'] = 'shop/user_login';
+$route['user/save'] = 'shop/user_save';
 
 
 /**
  * User Routes
  */
 $route['user'] = 'user';
-$route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
-$route['user/user_login'] = 'user/user_login';
-$route['user/save'] = 'user/user_save';
 $route['user/edit'] = 'user/user_edit';
 $route['product/add'] = 'user/product_add';
 $route['product/save'] = 'user/product_save';
@@ -88,6 +88,8 @@ $route['admin/product/save'] = 'admin/product_save';
 $route['admin/product/category/add/(:num)'] = 'admin/product_add_category/$1';
 $route['admin/subcategory/list/(:num)'] = 'admin/category_list/$1';
 $route['admin/product/category/save'] = 'admin/product_category_save';
+$route['admin/product/activate/(:num)'] = 'admin/product_activate/$1';
+$route['admin/product/deactivate/(:num)'] = 'admin/product_deactivate/$1';
 
 //Unit
 $route['admin/unit'] = 'admin/unit';

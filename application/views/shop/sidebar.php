@@ -28,9 +28,13 @@
 		foreach ($categories as $category) {
 			?>
 				<li class="subMenu open">
-					<a><?php echo $category['category_name']; ?></a>
+					<a><?php echo $category->category_name; ?></a>
 					<ul>
-						<li></li>
+						<?php foreach($category->subcategory as $_subcat) : ?>
+						<li>
+							<a href="#"><i class="icon-chevron-right"></i><?php echo ucfirst($_subcat->subcategory_name) ?></a>
+						</li>
+						<?php endforeach;?>
 					</ul>
 				</li>
 			<?php

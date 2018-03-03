@@ -1,5 +1,4 @@
 
-
 <div id="mainBody">
 	<div class="container">
 		<div class="row">
@@ -8,6 +7,7 @@
 				<div class="well well-small">
 					<h4>Featured Products</h4>
 					<div class="row-fluid">
+					<?php if(!empty($products)): ?>
 						<div id="featured" class="carousel slide">
 							<div class="carousel-inner">
 								<div class="item active">
@@ -86,7 +86,12 @@
 						<hr class="soft" />
 					</div>
 
-                </div>
+				</div>
+				<?php else: ?>
+				<div class="well well-danger">
+					No Data available
+				</div>
+				<?php endif; ?>
 				<hr>
 				<h4>Sales </h4>
 				<div id="chartContainer" style="height: 300px; width: 100%;"></div>

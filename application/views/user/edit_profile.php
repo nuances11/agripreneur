@@ -133,11 +133,10 @@
 									<input type="number" class="form-control" id="mobile" name="mobile" value="<?php echo $user->mobile; ?>">
 								</div>
                             </div>
-                            
-                            
+
+
                             <div class="btn-group pull-right mt-10" role="group">
-                                <button type="reset" class="btn btn-gray btn-wide"><i class="fa fa-refresh"></i>Reset</button>
-                                <button type="submit" class="btn bg-black btn-wide"><i class="fa fa-arrow-right"></i>Submit</button>
+                                <button type="submit" class="btn bg-black btn-wide"><i class="fa fa-arrow-right"></i>Update</button>
                             </div>
 						</form>
 						<!-- /.col-md-12 -->

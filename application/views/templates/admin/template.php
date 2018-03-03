@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/user/css/icheck/skins/line/blue.css" >
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/user/css/icheck/skins/line/red.css" >
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/user/css/icheck/skins/line/green.css" >
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/user/css/switchery/switchery.min.css" >
 
         <!-- ========== THEME CSS ========== -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/user/css/main.css" media="screen" >

@@ -44,14 +44,21 @@ class Category_model extends CI_Model {
 
     function save_product_category($data)
     {
-        $res = $this->db->insert(' tbl_product_category', $data);
-        if ($res) {
-            $prod = array(
-                    'status' => 1
+        $this->db->select('*');
+        $this->db->from('tbl_product_category');
+        $this->db->where('product_id', $data['product_id']);
+        $query = $this->db->get();
+        if($query->num_rows()){
+			$update = array(
+                'category_id' => $data['category_id'],
+                'subcategory_id' => $data['subcategory_id']
             );
             $this->db->where('product_id', $data['product_id']);
-            return $this->db->update('tbl_products', $prod);
+            return $this->db->update('tbl_product_category', $update);
+		}else{
+            return $this->db->insert('tbl_product_category', $data);
         }
+        
     }
 
 }

@@ -32,6 +32,10 @@
 					<div class="panel-body p-20">
 						<?php if($this->session->flashdata('success')){
                             echo $this->session->flashdata('success');
+						} ?>
+						
+						<?php if($this->session->flashdata('activate')){
+                            echo $this->session->flashdata('activate');
                         } ?>
 						<table id="products" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 							<thead>
@@ -92,8 +96,20 @@
 													?>
 												</td>
 												<td>
-                                                    <a href="" class="btn btn-success icon-only"><i class="fa fa-pencil"></i></a>
-                                                    <a href="<?php echo base_url();?>admin/product/category/add/<?php echo $product->product_id; ?>" class="btn btn-default icon-only">Categorize</a>
+													<?php 
+													if (!empty($product->subcategory_name) && !empty($product->category_name)) {
+														if ($product->status == 1) {
+															?>
+																<a href="<?php echo base_url();?>admin/product/deactivate/<?php echo $product->product_id; ?>" class="btn btn-danger icon-only" id="deactivate_product">Deactivate</a>
+															<?php
+														}else{
+															?>
+																<a href="<?php echo base_url();?>admin/product/activate/<?php echo $product->product_id; ?>" class="btn btn-success icon-only" id="activate_product" data-action="activate">Activate</a>
+															<?php
+														}
+													}
+													?>
+													<a href="<?php echo base_url();?>admin/product/category/add/<?php echo $product->product_id; ?>" class="btn btn-default icon-only">Categorize</a>
                                                 </td>
 											</tr>
 										<?php

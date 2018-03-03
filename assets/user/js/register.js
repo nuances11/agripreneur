@@ -2,7 +2,10 @@ $(function() {
 
     //User Registration
     $("#user_save").submit(function(event) {
-
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
         var formData = $(this);
         var base_url = $('#base_url').val();
         var action_url = $('#action_url').val();
