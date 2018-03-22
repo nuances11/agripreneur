@@ -46,33 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<body>
 		<div id="header">
 			<div class="container">
-				<!--<div id="welcomeLine" class="row">
-					<div class="span6">Welcome!
-						<strong> User</strong>
-					</div>
-					<div class="span6">
-						<div class="pull-right">
-							<a href="product_summary.html">
-								<span class="">Fr</span>
-							</a>
-							<a href="product_summary.html">
-								<span class="">Es</span>
-							</a>
-							<span class="btn btn-mini">En</span>
-							<a href="product_summary.html">
-								<span>&pound;</span>
-							</a>
-							<span class="btn btn-mini">$155.00</span>
-							<a href="product_summary.html">
-								<span class="">$</span>
-							</a>
-							<a href="product_summary.html">
-								<span class="btn btn-mini btn-primary">
-									<i class="icon-shopping-cart icon-white"></i> [ 3 ] Itemes in your cart </span>
-							</a>
-						</div>
-					</div>
-				</div>-->
 				<!-- Navbar ================================================== -->
 				<div id="logoArea" class="navbar">
 					<a id="smallScreen" data-target="#topMenu" data-toggle="collapse" class="btn btn-navbar">
@@ -90,7 +63,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</form>
 						<ul id="topMenu" class="nav pull-right">
 							<li class="">
-								<a href="<?php echo base_url();?>downloads/agripreneur_personal_data_sheet.pdf" download="agripreneur_personal_data_sheet.pdf"> Download Registration Form </a>
+									<a href="<?php echo base_url();?>upload/registration-form"><strong>Upload</strong> Registration Form</a>
+							</li>
+							<li class="">
+								<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET.pdf" download="PERSONAL-DATA-SHEET.pdf"> <strong>Download</strong> Registration Form </a>
 							</li>
 							<li class="">
 								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">Login</a>

@@ -45,7 +45,7 @@ class Shop extends CI_Controller {
 
 	function register()
 	{
-        $this->template->load_sub("categories", $this->user_model->get_categories_data());
+    $this->template->load_sub("categories", $this->user_model->get_categories_data());
 		$this->template->load('shop/register');
 	}
 
@@ -308,5 +308,11 @@ class Shop extends CI_Controller {
         else{
             echo "Error Num ". $result . " was encountered!";
         }
+    }
+
+    function upload_form()
+    {
+      $this->template->load_sub("categories", $this->user_model->get_categories_data());
+      $this->template->load('shop/upload_form');
     }
 }

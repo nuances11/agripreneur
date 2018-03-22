@@ -15,6 +15,7 @@ $route ['update/cart/(:num)/(:any)'] = 'shop/update_cart/$1/$2';
 $route ['remove/(:any)'] = 'shop/remove/$1';
 $route ['place_order'] = 'shop/place_order';
 $route['send/sms'] = 'shop/send_sms';
+$route['upload/registration-form'] = 'shop/upload_form';
 
 
 /**
