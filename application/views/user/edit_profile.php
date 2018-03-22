@@ -25,15 +25,15 @@
 							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>user/update">
 							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
                             <div class="form-group">
-								<label for="user_image" class="col-sm-2 control-label">Product Image</label>
+								<label for="fileToUpload" class="col-sm-2 control-label">Profile Image</label>
 								<div class="col-sm-10">
-									<input type="file" class="form-control" id="user_image" name="user_image">
+									<input type="file" class="form-control" id="fileToUpload" name="fileToUpload">
 								</div>
                             </div>
                             <div class="form-group">
 								<label for="predefined" class="col-sm-2 control-label">Title</label>
 								<div class="col-sm-10">
-									<select class="form-control" name="unit">
+									<select class="form-control" name="title">
 										<option value="">Default Select</option>
 										<option value="Mr." <?php if($user->title == 'Mr.'){ echo 'selected'; }?>>Mr.</option>
                                         <option value="Mrs." <?php if($user->title == 'Mrs.'){ echo 'selected'; }?>>Mrs.</option>

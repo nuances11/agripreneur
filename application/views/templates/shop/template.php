@@ -86,24 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</a>
 						<form class="form-inline navbar-search" method="post" action="products.html">
 							<input id="srchFld" class="srchTxt" type="text" />
-							<select class="srchTxt">
-								<option>All</option>
-								<option>CLOTHES </option>
-								<option>FOOD AND BEVERAGES </option>
-								<option>HEALTH & BEAUTY </option>
-								<option>SPORTS & LEISURE </option>
-								<option>BOOKS & ENTERTAINMENTS </option>
-							</select>
 							<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 						</form>
 						<ul id="topMenu" class="nav pull-right">
 							<li class="">
-								<a href="<?php echo base_url();?>downloads/agripreneur_personal_data_sheet.pdf" download="agripreneur_personal_data_sheet.pdf"> Download PDS </a>
+								<a href="<?php echo base_url();?>downloads/agripreneur_personal_data_sheet.pdf" download="agripreneur_personal_data_sheet.pdf"> Download Registration Form </a>
 							</li>
 							<li class="">
-								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">
-									<span class="btn btn-large btn-success">Login</span>
-								</a>
+								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">Login</a>
 							</li>
 						</ul>
 					</div>
@@ -113,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- Header End====================================================================== -->
 		<?php echo $content ?>
 		<!-- Footer ================================================================== -->
-		<div id="footerSection">
+		<!-- <div id="footerSection">
 			<div class="container">
 				<div class="row">
 					<div class="span3">
@@ -146,23 +136,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<!-- Container End -->
-		</div>
+		<!--</div> -->
 		<!-- Placed at the end of the document so the pages load faster ============================================= -->
 		<script src="<?php echo base_url(); ?>assets/js/jquery.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/js/google-code-prettify/prettify.js"></script>
 
+		<?php if(isset($add_js)){
+			foreach($add_js as $js){ ?>
+				<script src="<?php echo base_url() . $js; ?>"></script>
+			<?php }
+		} ?>
 		<script src="<?php echo base_url(); ?>assets/js/bootshop.js"></script>
 		<script src="<?php echo base_url(); ?>assets/js/jquery.lightbox-0.5.js"></script>
 
 		<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script>
-		<?php if(isset($add_js)){
-			foreach($add_js as $js){ ?>
-				<script src="<?php echo base_url() . $js; ?>"></script>
-			<?php }
-		}
+		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script> -->
+		<?php
 		if(isset($extra_js)){
 			?><script><?php
 			echo $extra_js;

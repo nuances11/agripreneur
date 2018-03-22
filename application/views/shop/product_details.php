@@ -12,19 +12,19 @@
 				</ul>
 				<div class="row">
 					<div id="gallery" class="span3">
-						<a href="<?php echo base_url() ?>assets/images/products/large/f1.jpg" title="Fujifilm FinePix S2950 Digital Camera">
+						<!-- <a href="<?php echo base_url() ?>assets/images/products/large/f1.jpg" title="Fujifilm FinePix S2950 Digital Camera"> -->
 						<img
 							<?php
-								if (!empty($prduct->image)) {
+								if (!empty($product->image)) {
 									?>
-									src="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+									src="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
 									<?php
 								}else{
 									?>
 									src="<?php echo base_url();?>uploads/no-image.jpg"
 									<?php
 								}
-							?> style="width:100%" alt="<?php echo ucfirst($product->image); ?>" />
+							?> style="width:100%" alt="<?php echo ucfirst($product->name); ?>" />
 						</a>
 					</div>
 					<div class="span6">
@@ -34,7 +34,7 @@
 						<form class="form-horizontal qtyFrm" id="add_to_cart">
 							<div class="control-group">
 								<label class="control-label">
-									<span>PHP <?php echo number_format($product->price,2);?></span>
+									<span>PHP <?php echo number_format($product->price,2);?></span><span style="color:#5bb75b">/<?php echo $product->unit_identifier ?></span>
 								</label>
 								<div class="controls">
 									<input type="hidden" name="id" value="<?php echo $product->product_id; ?>">
@@ -81,7 +81,7 @@
 											<th colspan="2">Product Details</th>
 										</tr>
 										<tr class="techSpecRow">
-											<td class="techSpecTD1">Producer: </td> 
+											<td class="techSpecTD1">Producer: </td>
 											<td class="techSpecTD2"><?php echo $producer->title. ' ' . ucfirst($producer->fname). ' ' . ucfirst($producer->lname)  ?></td>
 										</tr>
 										<tr class="techSpecRow">
@@ -90,7 +90,7 @@
 										</tr>
 										<tr class="techSpecRow">
 											<td class="techSpecTD1">Available Until:</td>
-											<td class="techSpecTD2"> <?php echo date("M jS, Y", strtotime($producer->availability)) ?></td>
+											<td class="techSpecTD2"> <?php echo date("l jS \of F Y h:i:s A", strtotime($producer->availability)) ?></td>
 										</tr>
 										<!-- <tr class="techSpecRow">
 											<td class="techSpecTD1">Dimensions:</td>
@@ -129,7 +129,7 @@
 													<?php
 														if (!empty($rp->image)) {
 															?>
-															src="<?php echo base_url();?>uploads/<?php echo $rp->image; ?>"
+															src="<?php echo base_url();?>uploads/products/<?php echo $rp->image; ?>"
 															<?php
 														}else{
 															?>
@@ -176,7 +176,7 @@
 																<?php
 																	if (!empty($rp->image)) {
 																		?>
-																		src="<?php echo base_url();?>uploads/<?php echo $rp->image; ?>"
+																		src="<?php echo base_url();?>uploads/products/<?php echo $rp->image; ?>"
 																		<?php
 																	}else{
 																		?>

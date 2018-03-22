@@ -1,62 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-| -------------------------------------------------------------------------
-| URI ROUTING
-| -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
-|
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
-|
-|	example.com/class/method/id/
-|
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
-|
-| Please see the user guide for complete details:
-|
-|	https://codeigniter.com/user_guide/general/routing.html
-|
-| -------------------------------------------------------------------------
-| RESERVED ROUTES
-| -------------------------------------------------------------------------
-|
-| There are three reserved routes:
-|
-|	$route['default_controller'] = 'welcome';
-|
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
-|
-|	$route['404_override'] = 'errors/page_missing';
-|
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
-|
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
-*/
 /**
  * Shop Routes
  */
 $route['shop/product/(:num)'] = 'shop/product_details/$1';
+$route['products/cat/(:num)/sub/(:num)'] = 'shop/products/$1/$2';
+$route['products/all'] = 'shop/show_all_products';
 $route['shop/register'] = 'shop/register';
 $route['login'] = 'shop/login';
 $route['user/user_login'] = 'shop/user_login';
 $route['user/save'] = 'shop/user_save';
+$route ['update/cart/(:num)/(:any)'] = 'shop/update_cart/$1/$2';
+$route ['remove/(:any)'] = 'shop/remove/$1';
+$route ['place_order'] = 'shop/place_order';
+$route['send/sms'] = 'shop/send_sms';
 
 
 /**
@@ -65,6 +23,7 @@ $route['user/save'] = 'shop/user_save';
 $route['user'] = 'user';
 $route['logout'] = 'user/logout';
 $route['user/edit'] = 'user/user_edit';
+$route['user/update'] = 'user/user_update';
 $route['product/add'] = 'user/product_add';
 $route['product/save'] = 'user/product_save';
 $route['product/list'] = 'user/product_list';
@@ -90,6 +49,12 @@ $route['admin/subcategory/list/(:num)'] = 'admin/category_list/$1';
 $route['admin/product/category/save'] = 'admin/product_category_save';
 $route['admin/product/activate/(:num)'] = 'admin/product_activate/$1';
 $route['admin/product/deactivate/(:num)'] = 'admin/product_deactivate/$1';
+$route['admin/orders/pending'] = 'admin/orders_pending';
+$route['admin/orders/accepted'] = 'admin/orders_accepted';
+$route['admin/orders/cancelled'] = 'admin/orders_cancelled';
+$route['admin/view/order/(:num)'] = 'admin/view_order/$1';
+$route['admin/accept/order'] = 'admin/accept_order';
+$route['admin/cancel/order'] = 'admin/cancel_order';
 
 //Unit
 $route['admin/unit'] = 'admin/unit';

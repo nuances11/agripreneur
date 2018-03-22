@@ -4,7 +4,7 @@
 			<?php echo ucfirst($user->fname) . ' ' . ucfirst($user->lname) ;?>
 			<small class="ml-10">My Profile</small>
 		</h4>
-		<p class="sub-title">One stop solution for perfect admin dashboard!</p>
+		
 	</div>
 	<!-- /.col-md-6 -->
 	<div class="col-md-6 right-side">
@@ -25,13 +25,24 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2">
-						<img src="<?php echo base_url() ?>assets/user/images/avatar-1.svg" alt="User Avatar" class="img-responsive">
+						<img
+						<?php
+							if (!empty($user->image)) {
+								?>
+								src="<?php echo base_url();?>uploads/user/<?php echo $user->image; ?>"
+								<?php
+							}else{
+								?>
+								src="http://placehold.it/90/c2c2c2?text=User"
+								<?php
+							}
+						?> alt="User Avatar" class="img-responsive">
 						<div class="text-center">
-							<button type="button" class="btn btn-primary btn-xs btn-labeled mt-10">Edit Picture
+							<a href="<?php echo base_url();?>user/edit" class="btn btn-primary btn-xs btn-labeled mt-10">Edit Profile
 								<span class="btn-label btn-label-right">
 									<i class="fa fa-pencil"></i>
 								</span>
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>

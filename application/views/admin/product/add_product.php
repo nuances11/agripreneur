@@ -20,7 +20,7 @@
 							<h5>Basic Input Fields</h5>
 						</div>
 					</div>
-					<div class="panel-body"> 
+					<div class="panel-body">
 						<div id="err"></div>
 						<form class="form-horizontal" id="admin_add_product" enctype="multipart/form-data">
 							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>admin/product/save">
@@ -41,9 +41,9 @@
 								</div>
 							</div>
                             <div class="form-group">
-								<label for="product_image" class="col-sm-2 control-label">Product Image</label>
+								<label for="fileToUpload" class="col-sm-2 control-label">Product Image</label>
 								<div class="col-sm-10">
-									<input type="file" class="form-control" id="product_image" name="product_image">
+									<input type="file" class="form-control" id="fileToUpload" name="fileToUpload">
 								</div>
 							</div>
 							<div class="form-group">

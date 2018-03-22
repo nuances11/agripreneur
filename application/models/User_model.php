@@ -70,10 +70,14 @@ class User_model extends CI_Model {
 	{
         $curr_date = date("Y-m-d");
         $query = $this->db->query("
-            SELECT *
-            FROM tbl_products
+            SELECT
+                p.*,
+                u.unit_identifier
+            FROM tbl_products p
+            LEFT JOIN tbl_unit u
+            ON p.unit = u.unit_id
             WHERE availability >= $curr_date
-            AND status = 1
+            AND p.status = 1
             ORDER BY rand()
             LIMIT 4
         ");
@@ -85,19 +89,26 @@ class User_model extends CI_Model {
 
     function get_rand_products()
 	{
-		$this->db->select('*');
-        $this->db->from('tbl_products');
-        $this->db->where('status', '1');
-        $this->db->order_by('rand()');
-        $this->db->limit(1);
-        $query = $this->db->get();
+        $curr_date = date("Y-m-d");
+		$query = $this->db->query("
+            SELECT
+                p.*,
+                u.unit_identifier
+            FROM tbl_products p
+            LEFT JOIN tbl_unit u
+            ON p.unit = u.unit_id
+            WHERE availability >= $curr_date
+            AND p.status = 1
+            ORDER BY rand()
+            LIMIT 1
+        ");
         if($query->num_rows()){
 			return $query->result();
 		}
 		return [];
     }
 
-    function get_categories_data() 
+    function get_categories_data()
     {
         $this->db->select('*');
         $this->db->from('tbl_category');
@@ -117,5 +128,21 @@ class User_model extends CI_Model {
          }
         return [];
 
+    }
+
+    function update_user($data)
+    {
+        $this->db->where('id', $this->session->userdata('id'));
+        return $this->db->update('tbl_user', $data);
+    }
+
+    function get_user_count()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_user');
+        $this->db->where('type', 'User');
+        $query = $this->db->get();
+        
+        return $query->num_rows();
     }
 }

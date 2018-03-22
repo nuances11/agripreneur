@@ -29,7 +29,10 @@
 
         <?php if(isset($additional_css)){
 			foreach($additional_css as $css){
-			  echo link_tag($css);
+			  // echo link_tag($css);
+              ?>
+                <link rel="stylesheet" href="<?php echo base_url() . $css ;?>">
+              <?php
 			}
 		} ?>
     </head>
@@ -89,7 +92,7 @@
                                         <span class="">Main</span>
                                     </li>
                                     <li class="">
-                                        <a href="<?php echo base_url(); ?>user"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                                        <a href="<?php echo base_url(); ?>admin"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                                     </li>
 
                                     <li class="nav-header">
@@ -100,14 +103,23 @@
                                     <li class=""><a href="<?php echo base_url(); ?>admin/product"><i class="fa fa-bars"></i> <span>Products</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/category"><i class="fa fa-bars"></i> <span>Category</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/subcategory"><i class="fa fa-bars"></i> <span>Sub-category</span></a></li>
-                                    <li class=""><a href="<?php echo base_url(); ?>admin/orders"><i class="fa fa-bars"></i> <span>Orders</span></a></li>
+                                    <!-- <li class=""><a href="<?php echo base_url(); ?>admin/orders"><i class="fa fa-bars"></i> <span>Orders</span></a></li> -->
+                                    <li class="has-children">
+                                        <a href="#"><i class="fa fa-bars"></i> <span>Orders</span> <i class="fa fa-angle-right arrow"></i></a>
+                                        <ul class="child-nav" style="display: none;">
+                                            <li><a href="<?php echo base_url(); ?>admin/orders/pending"><i class="fa fa-file-text"></i> <span>Pending</span></a></li>
+                                            <li><a href="<?php echo base_url(); ?>admin/orders/accepted"><i class="fa fa-file-text"></i> <span>Accepted</span></a></li>
+                                            <li><a href="<?php echo base_url(); ?>admin/orders/cancelled"><i class="fa fa-file-text"></i> <span>Cancelled</span></a></li>
+                                        </ul>
+                                    </li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/unit"><i class="fa fa-bars"></i> <span>Units</span></a></li>
 
                                     <li class="nav-header">
                                         <span class="">User</span>
                                     </li>
-                                    <li class=""><a href="<?php echo base_url(); ?>user/edit"><i class="fa fa-user"></i> <span>Edit Profile</span></a></li>
+                                    <!-- <li class=""><a href="<?php echo base_url(); ?>user/edit"><i class="fa fa-user"></i> <span>Edit Profile</span></a></li> -->
                                     <li class=""><a href="<?php echo base_url(); ?>logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
+
                                 </ul>
                                 <!-- /.side-nav -->
                             </div>

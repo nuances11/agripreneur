@@ -12,19 +12,6 @@
 				</ul>
 				<h3> Registration</h3>
 				<div class="well">
-					<!--
-	<div class="alert alert-info fade in">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-	 </div>
-	<div class="alert fade in">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-	 </div>
-	 <div class="alert alert-block alert-error fade in">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Lorem Ipsum is simply</strong> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-	 </div> -->
 	 				<div id="err"></div>
 					<form class="form-horizontal" id="user_save">
 						<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>user/save">
@@ -110,7 +97,7 @@
                                         $curYear = date("Y");
                                         $reqyear = $curYear - 18;
                                         $maxYear = $curYear - 99;
-                                        for($i = $maxYear ; $i <= $reqyear ; $i++)
+                                        for($i = 1980 ; $i <= $reqyear ; $i++)
                                         {
                                             echo '<option value=' . $i . '>' . $i . '</option>';
                                         }
@@ -119,12 +106,6 @@
                                 <span class="muted">(DD - MM - YYYY)</span>
 							</div>
 						</div>
-
-						<!-- <div class="alert alert-block alert-error fade in">
-							<button type="button" class="close" data-dismiss="alert">×</button>
-							<strong>Lorem Ipsum is simply</strong> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-							standard dummy text ever since the 1500s
-                        </div> -->
                         <div class="control-group">
 							<label class="control-label" for="gender">Gender
 								<sup>*</sup>

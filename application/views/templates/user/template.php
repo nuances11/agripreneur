@@ -58,7 +58,7 @@
                 		<div class="collapse navbar-collapse" id="navbar-collapse-1">
                 			<ul class="nav navbar-nav" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                                 <li class="hidden-sm hidden-xs"><a href="#" class="user-info-handle"><i class="fa fa-user"></i></a></li>
-                                
+
                 			</ul>
                             <!-- /.nav navbar-nav -->
                 		</div>
@@ -77,9 +77,19 @@
                     <div class="left-sidebar bg-black-300 box-shadow">
                         <div class="sidebar-content">
                             <div class="user-info closed">
-                                <img src="http://placehold.it/90/c2c2c2?text=User" alt="John Doe" class="img-circle profile-img">
+                                <img
+        						<?php
+        							if (!empty($user->image)) {
+        								?>
+        								src="<?php echo base_url();?>uploads/user/<?php echo $user->image; ?>"
+        								<?php
+        							}else{
+        								?>
+        								src="http://placehold.it/90/c2c2c2?text=User"
+        								<?php
+        							}
+        						?> width="100" height="100" alt="John Doe" class="img-circle profile-img">
                                 <h6 class="title"><?php echo ucfirst($user->fname) . ' ' . ucfirst($user->lname) ;?></h6>
-                                <small class="info"><a href="<?php echo base_url(); ?>logout">Logout</a></small>
                             </div>
                             <!-- /.user-info -->
 
@@ -144,7 +154,7 @@
         <script src="<?php echo base_url(); ?>assets/user/js/icheck/icheck.min.js"></script>
 
         <!-- ========== THEME JS ========== -->
-        
+
         <script src="<?php echo base_url(); ?>assets/user/js/production-chart.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/traffic-chart.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/task-list.js"></script>
@@ -152,14 +162,14 @@
 
         <?php if(isset($add_js)){
 			foreach($add_js as $js){ ?>
-				<script src="<?php echo base_url() . $js; ?>"></script> 
+				<script src="<?php echo base_url() . $js; ?>"></script>
 			<?php }
-		} 
+		}
 		if(isset($extra_js)){
 			?><script><?php
 			echo $extra_js;
 			?></script><?php
 		}
-		
+
 		?>
         <script>

@@ -11,7 +11,7 @@
 					<li class="active">Products</li>
 				</ul>
 				<h3> Product List
-                    <small class="pull-right"> <?php echo count($products) ;?> products are available </small>
+                    <small class="pull-right"> <?php if(!empty($products)){echo count($products);}else{echo '0'; } ;?> product(s) are available </small>
                 </h3>
                 <hr class="soft" />
                 <?php
@@ -21,11 +21,15 @@
                             <form class="form-horizontal span6">
                                 <div class="control-group">
                                     <label class="control-label alignL">Sort By </label>
-                                    <select>
-                                        <option>Priduct name A - Z</option>
-                                        <option>Priduct name Z - A</option>
-                                        <option>Priduct Stoke</option>
-                                        <option>Price Lowest first</option>
+                                    <select id="product_sort" data-type="<?php echo $this->uri->segment(2);?>" data-url="<?php echo base_url();?>" data-subcategory ="<?php echo $this->uri->segment(5);?>" data-category ="<?php echo $this->uri->segment(3);?>">
+                                        <option value="">Choose an Option</option>
+                                        <option value="date_asc">Date Created (Asc)</option>
+                                        <option value="date_desc">Date Created (Desc)</option>
+                                        <option value="name_asc">Name (Asc)</option>
+                                        <option value="name_desc">Name (Desc)</option>
+                                        <option value="price_asc">Price (Asc)</option>
+                                        <option value="price_desc">Price (Desc)</option>
+                                        <option value="nearest_5">Nearest (5mi)</option>
                                     </select>
                                 </div>
                             </form>
@@ -50,8 +54,7 @@
                                         <div class="row">
                                             <div class="span2">
                                                 <img <?php if (!empty($product->image)) { ?> src="
-                                                <?php echo base_url();?>uploads/
-                                                <?php echo $product->image; ?>"
+                                                <?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
                                                 <?php
                                                             }else{
                                                                 ?>
@@ -77,10 +80,11 @@
                                                 <form class="form-horizontal qtyFrm">
                                                     <h3> PHP
                                                         <?php echo number_format($product->price,2) ;?>
+                                                        <span style="color:#5bb75b">/<?php echo $product->unit_identifier ?>
                                                     </h3>
                                                     <br/>
                                                     <div class="btn-group">
-                                                        <a href="<?php echo base_url() ;?>shop/product<?php echo $product->product_id ;?>" class="btn btn-large btn-success"> Add to
+                                                        <a href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>" class="btn btn-large btn-success"> Add to
                                                             <i class=" icon-shopping-cart"></i>
                                                         </a>
                                                     </div>
@@ -99,12 +103,12 @@
                                                 ?>
                                             <li class="span3">
                                                 <div class="thumbnail">
-                                                    <a href="product_details.html">
+                                                    <a href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">
                                                         <img 
                                                             <?php 
                                                                 if (!empty($product->image)) { 
                                                                     ?> 
-                                                                        src="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+                                                                        src="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
                                                                     <?php
                                                                 }else{
                                                                     ?> 
@@ -121,9 +125,10 @@
                                                         <p>
                                                             PHP
                                                             <?php echo number_format($product->price,2); ?>
+                                                            <span style="color:#5bb75b">/<?php echo $product->unit_identifier ?>
                                                         </p>
                                                         <h4 style="text-align:center">
-                                                            <a class="btn btn-success" href="#">Add to
+                                                            <a class="btn btn-success" href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">Add to
                                                                 <i class="icon-shopping-cart"></i>
                                                             </a>
                                                         </h4>
@@ -137,17 +142,7 @@
                                     <hr class="soft" />
                                 </div>
                             </div>
-                            <div class="pagination">
-                                <ul>
-                                    <li><a href="#">‹</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">...</a></li>
-                                    <li><a href="#">›</a></li>
-                                </ul>
-                            </div>
+                            
                         <?php
                     }else{
                         ?>
@@ -160,3 +155,4 @@
 		</div>
 	</div>
 </div>
+

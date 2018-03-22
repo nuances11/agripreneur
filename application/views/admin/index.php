@@ -24,29 +24,29 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat bg-primary" href="#">
-                    <span class="number counter">1,411</span>
+                    <span class="number counter"><?php echo $product_count;?></span>
                     <span class="name">Products</span>
                     <span class="bg-icon"><i class="fa fa-comments"></i></span>
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat bg-danger" href="#">
-                    <span class="number counter">322</span>
+                    <span class="number counter"><?php echo $order_count;?></span>
                     <span class="name">Orders</span>
                     <span class="bg-icon"><i class="fa fa-ticket"></i></span>
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat bg-warning" href="#">
-                    <span class="number counter">5,551</span>
+                    <span class="number counter"><?php echo $user_count;?></span>
                     <span class="name">Users</span>
                     <span class="bg-icon"><i class="fa fa-bank"></i></span>
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat bg-success" href="#">
-                    <span class="number counter">16,710</span>
-                    <span class="name">Customers</span>
+                    <span class="number counter"><?php echo $sales_count;?></span>
+                    <span class="name">Sales</span>
                     <span class="bg-icon"><i class="fa fa-thumbs-o-up"></i></span>
                 </a>
             </div>

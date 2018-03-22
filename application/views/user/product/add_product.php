@@ -16,7 +16,7 @@
 				<div class="panel">
 					<div class="panel-heading">
 						<div class="panel-title">
-							<h5>Basic Input Fields</h5>
+							<h5>Basic Input Fields</h5> 
 						</div>
 					</div>
 					<div class="panel-body">
@@ -25,9 +25,10 @@
 							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>product/save">
 							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
                             <div class="form-group">
-								<label for="product_image" class="col-sm-2 control-label">Product Image</label>
+								<label for="product_image" class="col-sm-2 control-label">Product Image</label> 
 								<div class="col-sm-10">
-									<input type="file" class="form-control" id="product_image" name="product_image">
+									<input type="file" class="form-control" name="fileToUpload" id="fileToUpload">
+									<!-- <input type="file" class="form-control" id="product_image" name="product_image"> -->
 								</div>
 							</div>
 							<div class="form-group">

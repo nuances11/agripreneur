@@ -51,9 +51,9 @@
 												<td class="text-center">
 													<img width="50"
 													<?php
-														if (!empty($prduct->image)) {
+														if (!empty($product->image)) {
 															?>
-															src="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+															src="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
 															<?php
 														}else{
 															?>

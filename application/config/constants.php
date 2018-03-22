@@ -85,3 +85,4 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('MAPS_API_KEY', 'AIzaSyAtIBjAmp6MUjLg9A5hg94_w3IgiEhrkIg');
+define('SMS_API_KEY', 'TR-AGRIP576436_NNRZM');

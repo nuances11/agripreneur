@@ -7,6 +7,7 @@ class Shop extends CI_Controller {
         parent::__construct();
 		$this->load->model('user_model');
 		$this->load->model('product_model');
+    $this->load->model('transaction_model');
         $styles = array(
 
 		);
@@ -60,7 +61,9 @@ class Shop extends CI_Controller {
         $this->form_validation->set_rules('title','Title', 'required');
         $this->form_validation->set_rules('fname','First Name', 'required');
         $this->form_validation->set_rules('lname','Last Name', 'required');
-        $this->form_validation->set_rules('email','Email Address','required|valid_email|is_unique[tbl_user.email]');
+        $this->form_validation->set_rules('email','Email Address','required|valid_email|is_unique[tbl_user.email]',
+            array('is_unique' => '%s already used. Please provide a unique one.')
+        );
         $this->form_validation->set_rules('password','Password', 'required|min_length[8]');
         $this->form_validation->set_rules('cpassword', 'Password Confirmation', 'required|matches[password]');
         $this->form_validation->set_rules('address','Address', 'required');
@@ -129,6 +132,36 @@ class Shop extends CI_Controller {
 		$this->template->load('shop/shopping_cart');
 	}
 
+  function update_cart($qty, $id)
+  {
+    $data = array(
+      'rowid' => $id,
+      'qty' => $qty
+    );
+
+    $res = $this->cart->update($data);
+    if ($res) {
+      echo json_encode(array("success" => TRUE));
+    }else{
+      echo json_encode(array("success" => FALSE));
+    }
+  }
+
+  function remove($id)
+  {
+    $data = array(
+      'rowid' => $id,
+      'qty' => 0
+    );
+
+    $res = $this->cart->update($data);
+    if ($res) {
+      echo json_encode(array("success" => TRUE));
+    }else{
+      echo json_encode(array("success" => FALSE));
+    }
+  }
+
 
     function login(){
         $this->template->set_template('login');
@@ -176,5 +209,104 @@ class Shop extends CI_Controller {
 
         }
     }
+    function products($category = '', $subcategory = '')
+    {
+        $this->template->load_sub("products", $this->product_model->get_products_by_category($category,$subcategory));
+        $this->template->load_sub("categories", $this->user_model->get_categories_data());
+        $this->template->load('shop/products');
+    }
+    function show_all_products()
+    {
+        $this->template->load_sub("products", $this->product_model->get_all_products());
+        $this->template->load_sub("categories", $this->user_model->get_categories_data());
+        $this->template->load('shop/products');
+    }
 
+    function place_order()
+    {
+      //$this->cart->contents()
+      $this->load->library('form_validation');
+      $this->load->helper('form');
+
+      $this->form_validation->set_rules('customer_fname','First Name', 'required');
+      $this->form_validation->set_rules('customer_lname','Last Name', 'required');
+      $this->form_validation->set_rules('customer_email','Email', 'required|valid_email');
+      $this->form_validation->set_rules('customer_number','Number', 'required|regex_match[^(09|\+639)\d{9}$^]',
+          array('regex_match' => 'Please provide a valid %s <strong>ex: 09 or +639</strong>')
+      );
+      if ($this->form_validation->run() == FALSE) {
+          $errors = array(
+              "errors" => validation_errors(),
+              "success" => FALSE
+          );
+
+          echo json_encode($errors);
+      }else{
+        $grand_total = 0;
+        foreach ($this->cart->contents() as $item) {
+            $grand_total = $grand_total + $item['subtotal'];
+        }
+
+          $data = array(
+              'customer_fname' => $this->input->post('customer_fname'),
+              'customer_lname' => $this->input->post('customer_lname'),
+              'customer_email' => $this->input->post('customer_email'),
+              'customer_number' => $this->input->post('customer_number'),
+              'total_amount' => $grand_total,
+              'transaction_status' => 0
+          );
+
+          $trans_id = $this->transaction_model->add_transaction($data);
+              if (!empty($trans_id)) {
+                    $trans = $this->transaction_model->add_product_per_trans($trans_id);
+                    if ($trans) {
+                        $this->cart->destroy();
+                        echo json_encode(array("success" => TRUE));
+                    }else{
+                        echo json_encode(array("success" => FALSE));
+                    }
+              }else{
+                  echo json_encode(array("success" => FALSE));
+              }
+
+      }
+    }
+
+    //##########################################################################
+    // ITEXMO SEND SMS API - PHP - CURL METHOD
+    // Visit www.itexmo.com/developers.php for more info about this API
+    //##########################################################################
+    function itexmo($number,$message,$apicode){
+        $url = 'https://www.itexmo.com/php_api/api.php';
+        $itexmo = array('1' => $number, '2' => $message, '3' => $apicode);
+        $param = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($itexmo),
+            ),
+        );
+        $context  = stream_context_create($param);
+        return file_get_contents($url, false, $context);
+    }
+    //##########################################################################
+
+    function send_sms()
+    {
+        $number = '09171576436';
+        $message = 'Test Message';
+        $apicode = SMS_API_KEY;
+        $result = $this->itexmo($number, $message, $apicode);
+
+        if ($result == ""){
+            echo "iTexMo: No response from server!!!
+            Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.
+            Please CONTACT US for help. ";
+        }else if ($result == 0){
+            echo "Message Sent!";
+        }
+        else{
+            echo "Error Num ". $result . " was encountered!";
+        }
+    }
 }

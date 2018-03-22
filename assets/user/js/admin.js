@@ -155,9 +155,9 @@ $(function() {
     })
 
     // Add product
-    $("#admin_add_product").submit(function(event) { 
+    $("#admin_add_product").submit(function(event) {
 
-        var formData = $(this);
+        var formData = new FormData(this);
         var base_url = $('#base_url').val();
         var action_url = $('#action_url').val();
         var err_msg = '';
@@ -165,8 +165,10 @@ $(function() {
         $.ajax({
             type: 'POST',
             url: action_url,
-            data: formData.serialize(),
+            data: formData,
             dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function(data) {
                 if (!data.success) {
                     $('#err').html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' + data.errors + '</div>');
@@ -178,4 +180,60 @@ $(function() {
         });
 
     });
+
+    $('#accept_order').click(function(){
+        var id = $(this).data('id');
+        var url = $(this).data('url');
+        var number = $('#contact_number').data('number');
+        var result = confirm('Are you sure want to accept this transaction?');
+        var formData = {
+            'id' : id,
+            'number' : number
+        }
+        if (result) {
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: url + 'admin/accept/order',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    if (!data.success) {
+                        alert(data.error);
+                    }else{
+                        alert('Order Accepted');
+                        window.location.href = url + 'admin/orders/pending';
+                    }
+                }
+            });
+        }
+    })
+
+    $('#cancel_order').click(function(){
+        var id = $(this).data('id');
+        var url = $(this).data('url');
+        var number = $('#contact_number').data('number');
+        var result = confirm('Are you sure want to cancel this transaction?');
+        var formData = {
+            'id' : id,
+            'number' : number
+        }
+        if (result) {
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: url + 'admin/cancel/order',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    if (!data.success) {
+                        alert(data.error);
+                    }else{
+                        alert('Order Cancelled');
+                        window.location.href = url + 'admin/orders/pending';
+                    }
+                }
+            });
+        }
+    })
 })

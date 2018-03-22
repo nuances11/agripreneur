@@ -15,12 +15,12 @@
 										<?php foreach ($products as $product): ?>
 											<li class="span3">
 												<div class="thumbnail">
-													<a href="<?php echo base_url() ;?>shop/product<?php echo $product->product_id ;?>">
+													<a href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">
 														<img
 														<?php
-															if (!empty($prduct->image)) {
+															if (!empty($product->image)) {
 																?>
-																src="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+																src="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
 																<?php
 															}else{
 																?>
@@ -31,9 +31,9 @@
 													</a>
 													<div class="caption">
 														<h5><?php echo ucfirst($product->name); ?></h5>
-														<div class="text-center">
-															<a class="btn" href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">VIEW</a>
-															<span class="pull-right">PHP <?php echo number_format($product->price, 2);?></span>
+														<div style="text-align:center;font-weight:600;">
+															<!-- <a class="btn" href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">VIEW</a> -->
+															<span>PHP <?php echo number_format($product->price, 2);?></span><span style="color:#5bb75b">/<?php echo $product->unit_identifier ?></span>
 														</div>
 													</div>
 												</div>
@@ -51,7 +51,7 @@
 						<a <?php
 							if (!empty($product->image)) {
 								?>
-								href="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+								href="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
 								<?php
 							}else{
 								?>
@@ -62,7 +62,7 @@
 							<img <?php
 								if (!empty($product->image)) {
 									?>
-									src="<?php echo base_url();?>uploads/<?php echo $product->image; ?>"
+									src="<?php echo base_url();?>uploads/products/<?php echo $product->image; ?>"
 									<?php
 								}else{
 									?>
@@ -76,11 +76,14 @@
 					<div class="span6">
 						<h3><?php echo $product->name;?></h3>
 						<hr class="soft clr" />
+						<label class="control-label">
+							<span>PHP <?php echo number_format($product->price,2);?></span><span style="color:#5bb75b">/<?php echo $product->unit_identifier ?></span>
+						</label>
 						<p>
 							<?php echo $product->description;?>
 
 						</p>
-						<a class="btn btn-small pull-right" href="#detail">More Details</a>
+						<a class="btn btn-small pull-right" href="<?php echo base_url() ;?>shop/product/<?php echo $product->product_id ;?>">More Details</a>
 						<br class="clr" />
 						<a href="#" name="detail"></a>
 						<hr class="soft" />

@@ -10,15 +10,19 @@ class Admin extends CI_Controller {
         $this->load->model('category_model');
         $this->load->model('subcategory_model');
         $this->load->model('product_model');
+        $this->load->model('transaction_model');
 
         $styles = array(
-
+            'assets/user/css/prism/prism.css',
+            'assets/user/css/ladda/ladda-themeless.min.css',
 		);
 		$js = array(
             'assets/user/js/login.js',
             'assets/user/js/user.js',
             'assets/user/js/admin.js',
-            'assets/user/js/switchery/switchery.min.js'
+            'assets/user/js/switchery/switchery.min.js',
+            'assets/user/js/ladda/ladda.min.js',
+            'assets/user/js/prism/prism.js'
 
 		);
 
@@ -33,6 +37,10 @@ class Admin extends CI_Controller {
 
     function index()
 	{
+        $this->template->load_sub('sales_count', $this->transaction_model->get_sales_count());
+        $this->template->load_sub('user_count', $this->user_model->get_user_count());
+        $this->template->load_sub('order_count', $this->transaction_model->get_order_count());
+        $this->template->load_sub('product_count', $this->product_model->get_product_count());
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
 		$this->template->load('admin/index');
     }
@@ -267,6 +275,7 @@ class Admin extends CI_Controller {
         $this->load->helper('form');
         $this->load->model('user_model');
 
+        $this->form_validation->set_rules('user','User', 'required');
         $this->form_validation->set_rules('product_name','Product Name', 'required');
         $this->form_validation->set_rules('quantity','Quantity', 'required');
         $this->form_validation->set_rules('unit','Unit', 'required');
@@ -282,24 +291,77 @@ class Admin extends CI_Controller {
 
             echo json_encode($errors);
         }else{
-            $data = array (
-                "user_id" => $this->input->post('user'),
-                "image" => '',
-                "name" => $this->input->post('product_name'),
-                "quantity" => $this->input->post('quantity'),
-                "unit" => $this->input->post('unit'),
-                "price" => $this->input->post('price'),
-                "harvest_date" => $this->input->post('harvest_date'),
-                "availability" => $this->input->post('product_availability'),
-                "description" => $this->input->post('description')
-            );
 
-            $res = $this->user_model->save_product($data);
-            if($res){
-                echo json_encode(array("success" => TRUE));
-            }else{
-                echo json_encode(array("success" => FALSE));
+            $target_dir = "uploads/products/";
+            $file_name = basename($_FILES["fileToUpload"]["name"]);
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if($check !== false) {
+                //echo json_encode(array("image" => "File is an image - " . $check["mime"]));
+                $uploadOk = 1;
+            } else {
+                echo json_encode(array("image" => "File is not an image."));
+                $uploadOk = 0;
             }
+
+            // Check if file already exists
+            // if (file_exists($target_file)) {
+            //     echo json_encode(array("duplicate" => "Sorry, file already exists."));
+            //     //echo "Sorry, file already exists.";
+            //     unlink("$target_file");
+            //     $uploadOk = 1;
+            // }
+            // Check file size
+            if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                echo json_encode(array("size" => "Sorry, your file is too large."));
+                //echo "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            // Allow certain file formats
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif" ) {
+                echo json_encode(array("format" => "Sorry, only JPG, JPEG, PNG & GIF files are allowed."));
+                //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 0;
+            }
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo json_encode(array("upload" => "Sorry, your file was not uploaded."));
+                //echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+            } else {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+
+                    $data = array (
+                        "user_id" => $this->input->post('user'),
+                        "image" => $file_name,
+                        "name" => $this->input->post('product_name'),
+                        "quantity" => $this->input->post('quantity'),
+                        "unit" => $this->input->post('unit'),
+                        "price" => $this->input->post('price'),
+                        "harvest_date" => $this->input->post('harvest_date'),
+                        "availability" => $this->input->post('product_availability'),
+                        "description" => $this->input->post('description')
+                    );
+
+                    $res = $this->user_model->save_product($data);
+                    if($res){
+                        echo json_encode(array("success" => TRUE));
+                    }else{
+                        echo json_encode(array("success" => FALSE));
+                    }
+
+                } else {
+                    echo json_encode(array("upload" => "Sorry, there was an error uploading your file."));
+                    //echo "Sorry, there was an error uploading your file.";
+                }
+            }
+
+
         }
     }
 
@@ -426,7 +488,169 @@ class Admin extends CI_Controller {
         }
     }
 
+    function orders_pending()
+    {
+        $extra_js = '
+            $("#orders").DataTable();
+		';
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('orders', $this->transaction_model->get_orders_pending());
+        $this->template->load('admin/orders_pending');
+    }
 
+    function orders_accepted()
+    {
+        $extra_js = '
+            $("#orders").DataTable();
+		';
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('orders', $this->transaction_model->get_orders_accepted());
+        $this->template->load('admin/orders_accepted');
+    }
+
+    function orders_cancelled()
+    {
+        $extra_js = '
+            $("#orders").DataTable();
+		';
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('orders', $this->transaction_model->get_orders_cancelled());
+        $this->template->load('admin/orders_cancelled');
+    }
+
+    function view_order($id)
+    {
+
+        $this->template->load_sub('orders', $this->transaction_model->get_order_details($id));
+        $this->template->load_sub('transaction', $this->transaction_model->get_transaction_details($id));
+        $this->template->load('admin/order_details');
+    }
+
+    function accept_order()
+    {
+        $data = array();
+        $trans_id = $this->input->post('id');
+        $number = $this->input->post('number');
+
+        $result = $this->transaction_model->accept_order($trans_id);
+        if ($result) {
+            $data['transaction'] = 'Order Accepted';
+            // echo json_encode(array('transaction' => TRUE));
+            $update = $this->product_model->update_product_qty($trans_id);
+            if ($update) {
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Order Accepted!</div>');
+                // echo json_encode(array('product' => TRUE));
+                $message = 'Your order has been accepted.';
+
+                $sms = $this->itexmo($number, $message, SMS_API_KEY);
+
+                if ($sms == ""){
+                    $data['sms_error'] = "iTexMo: No response from server!!!
+                    Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.
+                    Please CONTACT US for help. ";
+                }else if ($sms == 0){
+                    $data['sms_success'] = "Message Sent!";
+                    $data['success'] = TRUE;
+                    $data['product'] = 'Product updated';
+                }
+                else{
+                    $data['sms_error'] = "Error Num ". $sms . " was encountered!";
+                }
+
+            }else{
+                $data['error'] = 'Product quantity is less than the order quantity';
+                // echo json_encode(array('error' => 'Product quantity is less than the order quantity'));
+            }
+        }else {
+            $data['success'] = FALSE;
+            $data['transaction'] = 'Transaction Failed';
+            // echo json_encode(array('transaction' => FALSE));
+
+        }
+        echo json_encode($data);
+    }
+
+    function cancel_order()
+    {
+        $data = array();
+        $trans_id = $this->input->post('id');
+        $number = $this->input->post('number');
+
+        $result = $this->product_model->update_product_qty_cancel($trans_id);
+        if ($result) {
+            $data['transaction'] = 'Order Cancelled';
+            // echo json_encode(array('transaction' => TRUE));
+            $update = $this->transaction_model->cancel_order($trans_id);
+            if ($update) {
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Order Cancelled!</div>');
+                // echo json_encode(array('product' => TRUE));
+                $message = 'Your order has been cancelled.';
+
+                $sms = $this->itexmo($number, $message, SMS_API_KEY);
+
+                if ($sms == ""){
+                    $data['sms_error'] = "iTexMo: No response from server!!!
+                    Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.
+                    Please CONTACT US for help. ";
+                }else if ($sms == 0){
+                    $data['sms_success'] = "Message Sent!";
+                    $data['success'] = TRUE;
+                    $data['product'] = 'Product updated';
+                }
+                else{
+                    $data['sms_error'] = "Error Num ". $sms . " was encountered!";
+                }
+
+            }else{
+                $data['error'] = 'Product quantity is less than the order quantity';
+                // echo json_encode(array('error' => 'Product quantity is less than the order quantity'));
+            }
+        }else {
+            $data['success'] = FALSE;
+            $data['transaction'] = 'Transaction Failed';
+            // echo json_encode(array('transaction' => FALSE));
+
+        }
+        echo json_encode($data);
+    }
+
+    //##########################################################################
+    // ITEXMO SEND SMS API - PHP - CURL METHOD
+    // Visit www.itexmo.com/developers.php for more info about this API
+    //##########################################################################
+    function itexmo($number,$message,$apicode){
+        $url = 'https://www.itexmo.com/php_api/api.php';
+        $itexmo = array('1' => $number, '2' => $message, '3' => $apicode);
+        $param = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($itexmo),
+            ),
+        );
+        $context  = stream_context_create($param);
+        return file_get_contents($url, false, $context);
+    }
+    //##########################################################################
+
+    // function send_sms()
+    // {
+    //     $number = '09171576436';
+    //     $message = 'Test Message';
+    //     $apicode = SMS_API_KEY;
+    //     $result = $this->itexmo($number, $message, $apicode);
+    //
+    //     if ($result == ""){
+    //         echo "iTexMo: No response from server!!!
+    //         Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.
+    //         Please CONTACT US for help. ";
+    //     }else if ($result == 0){
+    //         echo "Message Sent!";
+    //     }
+    //     else{
+    //         echo "Error Num ". $result . " was encountered!";
+    //     }
+    // }
 
 
 }

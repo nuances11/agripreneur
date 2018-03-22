@@ -10,8 +10,9 @@ class Product_model extends CI_Model {
     function fetch_all_products()
     {
         $query = $this->db->query("
-            SELECT 
+            SELECT
                 p.product_id,
+                p.image,
                 p.name,
                 p.status,
                 pc.category_id,
@@ -32,15 +33,16 @@ class Product_model extends CI_Model {
         return [];
     }
 
-    function get_product_data($id) 
+    function get_product_data($id)
     {
         $query = $this->db->query("
-            SELECT 
+            SELECT
                 p.*,
                 pc.category_id,
                 pc.subcategory_id,
                 c.category_name,
-                sc.subcategory_name
+                sc.subcategory_name,
+                u.unit_identifier
             FROM tbl_products p
             LEFT JOIN tbl_product_category pc
             ON p.product_id = pc.product_id
@@ -48,6 +50,8 @@ class Product_model extends CI_Model {
             ON c.category_id = pc.category_id
             LEFT JOIN tbl_sub_category sc
             ON sc.subcategory_id = pc.subcategory_id
+            LEFT JOIN tbl_unit u
+            ON p.unit = u.unit_id
             WHERE p.product_id = $id
         ");
         if($query->num_rows() > 0){
@@ -121,5 +125,417 @@ class Product_model extends CI_Model {
         );
         $this->db->where('product_id', $id);
         return $this->db->update('tbl_products', $data);
+    }
+
+    // function get_products_by_category($category, $subcategory)
+    // {
+    //     if (!empty($category) && !empty($subcategory)) {
+    //         $query = $this->db->query("
+    //         SELECT
+    //                 pc.category_id,
+    //                 pc.subcategory_id,
+    //                 p.*,
+    //                 u.unit_identifier
+    //             FROM tbl_product_category pc
+    //             LEFT JOIN tbl_products p
+    //             ON pc.product_id = p.product_id
+    //             LEFT JOIN tbl_unit u
+    //             ON p.unit = u.unit_id
+    //             WHERE pc.category_id = $category
+    //             AND pc.subcategory_id = $subcategory
+    //             AND p.status = 1
+    //         ");
+    //         if($query->num_rows() > 0){
+    //             return $query->result();
+    //         }
+    //         return [];
+    //     }
+    // }
+
+    function get_products_by_category($category, $subcategory)
+    {
+        $filter = '';
+        if(isset($_GET['q']) && !empty($_GET['q'])){
+            $filter = trim($_GET['q']);
+        }
+        if (!empty($category) && !empty($subcategory)) {
+
+            if(!empty($filter)){
+                if($filter == 'date_asc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY timestamp_created ASC
+                        ");
+                }elseif($filter == 'date_desc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY timestamp_created DESC
+                        ");
+                }elseif($filter == 'name_asc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY name ASC
+                        ");
+                }elseif($filter == 'name_desc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY name DESC
+                        ");
+                }elseif($filter == 'price_asc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY price ASC
+                        ");
+                }elseif($filter == 'price_desc'){
+                    $query = $this->db->query("
+                        SELECT
+                                pc.category_id,
+                                pc.subcategory_id,
+                                p.*,
+                                u.unit_identifier
+                            FROM tbl_product_category pc
+                            LEFT JOIN tbl_products p
+                            ON pc.product_id = p.product_id
+                            LEFT JOIN tbl_unit u
+                            ON p.unit = u.unit_id
+                            WHERE pc.category_id = $category
+                            AND pc.subcategory_id = $subcategory
+                            AND p.status = 1
+                            ORDER BY price DESC
+                        ");
+                }elseif($filter == 'nearest_5'){
+                    $long = $_GET['long'];
+                    $lat = $_GET['lat'];
+
+                    $query = $this->db->query("
+                            SELECT
+                                u.*,
+                                p.*,
+                                un.unit_identifier,
+                                 ( 3959 * acos( cos( radians($lat) ) * cos( radians( latitude ) ) *
+                            cos( radians( longitude ) - radians($long) ) + sin( radians($lat) ) *
+                            sin( radians( latitude ) ) ) ) AS distance
+                            FROM tbl_user u
+                            LEFT JOIN tbl_products p
+                            ON u.id = p.user_id
+                            LEFT JOIN tbl_unit un
+                            ON p.unit = un.unit_id
+                            WHERE p.status = 1
+                            HAVING distance < 10
+                            ORDER BY distance
+                            LIMIT 0 , 20;
+                    ");
+
+                }
+            }else{
+                $query = $this->db->query("
+                SELECT
+                        pc.category_id,
+                        pc.subcategory_id,
+                        p.*,
+                        u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    WHERE pc.category_id = $category
+                    AND pc.subcategory_id = $subcategory
+                    AND p.status = 1
+                ");
+            }
+            if($query->num_rows() > 0){
+                return $query->result();
+            }
+            return [];
+        }
+    }
+    function get_products_by_category_total($category, $subcategory)
+    {
+        if (!empty($category) && !empty($subcategory)) {
+            $query = $this->db->query("
+            SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                FROM tbl_product_category pc
+                LEFT JOIN tbl_products p
+                ON pc.product_id = p.product_id
+                LEFT JOIN tbl_unit u
+                ON p.unit = u.unit_id
+                WHERE pc.category_id = $category
+                AND pc.subcategory_id = $subcategory
+                AND p.status = 1
+            ");
+            if($query->num_rows() > 0){
+                return $query->num_rows();
+            }
+            return [];
+        }
+    }
+
+    function get_all_products()
+    {
+        $filter = '';
+        if(isset($_GET['q']) && !empty($_GET['q'])){
+            $filter = trim($_GET['q']);
+        }
+
+        if(!empty($filter)){
+            if($filter == 'date_asc'){
+                $query = $this->db->query("
+                    SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    AND p.status = 1
+                        ORDER BY timestamp_created ASC
+                    ");
+            }elseif($filter == 'date_desc'){
+                $query = $this->db->query("
+                    SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    AND p.status = 1
+                        ORDER BY timestamp_created DESC
+                    ");
+            }elseif($filter == 'name_asc'){
+                $query = $this->db->query("
+                    SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    AND p.status = 1
+                        ORDER BY name ASC
+                    ");
+            }elseif($filter == 'name_desc'){
+                $query = $this->db->query("
+                    SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    AND p.status = 1
+                        ORDER BY name DESC
+                    ");
+            }elseif($filter == 'price_asc'){
+                $query = $this->db->query("
+                    SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                    FROM tbl_product_category pc
+                    LEFT JOIN tbl_products p
+                    ON pc.product_id = p.product_id
+                    LEFT JOIN tbl_unit u
+                    ON p.unit = u.unit_id
+                    AND p.status = 1
+                        ORDER BY price ASC
+                    ");
+            }elseif($filter == 'price_desc'){
+                $query = $this->db->query("
+                SELECT
+                        pc.category_id,
+                        pc.subcategory_id,
+                        p.*,
+                        u.unit_identifier
+                        FROM tbl_product_category pc
+                        LEFT JOIN tbl_products p
+                        ON pc.product_id = p.product_id
+                        LEFT JOIN tbl_unit u
+                        ON p.unit = u.unit_id
+                        AND p.status = 1
+                        ORDER BY price DESC
+                    ");
+            }
+        }else{
+            $query = $this->db->query("
+            SELECT
+                    pc.category_id,
+                    pc.subcategory_id,
+                    p.*,
+                    u.unit_identifier
+                FROM tbl_product_category pc
+                LEFT JOIN tbl_products p
+                ON pc.product_id = p.product_id
+                LEFT JOIN tbl_unit u
+                ON p.unit = u.unit_id
+                AND p.status = 1
+            ");
+        }
+
+
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return [];
+    }
+
+    function get_product_count()
+    {
+        $this->db->select('*')
+                ->from('tbl_products')
+                ->where('status', '1');
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function update_product_qty($trans_id)
+    {
+        $this->db->select('*')
+                ->from('tbl_product_per_transaction')
+                ->where('transaction_id', $trans_id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $updated_qty = 0;
+            foreach ($query->result() as $ppt) {
+                $qty = $ppt->product_total_qty;
+                $product_id = $ppt->product_id;
+
+                $this->db->select('*')
+                        ->from('tbl_products')
+                        ->where('product_id', $product_id);
+                $prod = $this->db->get();
+                $product = $prod->row();
+
+                if ($product->quantity > $qty) {
+                    $update = $this->db->query("
+                        UPDATE
+                        tbl_products
+                        SET quantity = quantity - $qty
+                        WHERE product_id = $product_id
+                    ");
+
+                    return TRUE;
+
+                }else{
+                    return FALSE;
+                }
+            }
+        }
+
+        return [];
+    }
+
+    function update_product_qty_cancel($trans_id)
+    {
+        $this->db->select('*')
+                ->from('tbl_transaction')
+                ->where('transaction_id', $trans_id);
+        $query = $this->db->get();
+        $trans = $query->row();
+        if ($trans->transaction_status == '1') {
+
+            $this->db->select('*')
+                    ->from('tbl_product_per_transaction')
+                    ->where('transaction_id', $trans_id);
+            $products = $this->db->get();
+            foreach ($products->result() as $ppt) {
+
+                $qty = $ppt->product_total_qty;
+                $product_id = $ppt->product_id;
+
+                    $update = $this->db->query("
+                        UPDATE
+                        tbl_products
+                        SET quantity = quantity + $qty
+                        WHERE product_id = $product_id
+                    ");
+
+                    return TRUE;
+            }
+
+        }else{
+
+            return TRUE;
+        }
+
+        return [];
     }
 }

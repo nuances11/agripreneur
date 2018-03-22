@@ -6,7 +6,9 @@
                         <div class="panel login-box">
                             <div class="panel-heading">
                                 <div class="panel-title text-center">
-                                <img src="<?php echo base_url(); ?>assets/images/agrilogo-2.png" alt="Agripreneur" />
+                                    <a href="<?php echo base_url();?>">
+                                        <img src="<?php echo base_url(); ?>assets/images/agrilogo-2.png" alt="Agripreneur" />
+                                    </a>
                                 </div>
                             </div>
                             <div class="panel-body p-20">
