@@ -60,11 +60,12 @@
                 <div class="panel border-primary no-border border-3-top" data-panel-control>
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <h5>Production Change <small>over years</small></h5>
+                            <h5>Products<small>per month</small></h5>
                         </div>
                     </div>
                     <div class="panel-body">
-                        <div id="production-chart" class="op-chart"></div>
+                        <!-- <div id="production-chart" class="op-chart"></div> -->
+                        <canvas id="myChart" width="300" height="300"></canvas>
                     </div>
                 </div>
                 <!-- /.panel -->

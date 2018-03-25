@@ -33,7 +33,7 @@
 						<?php if($this->session->flashdata('success')){
                             echo $this->session->flashdata('success');
 						} ?>
-						
+
 						<?php if($this->session->flashdata('activate')){
                             echo $this->session->flashdata('activate');
                         } ?>
@@ -96,7 +96,7 @@
 													?>
 												</td>
 												<td>
-													<?php 
+													<?php
 													if (!empty($product->subcategory_name) && !empty($product->category_name)) {
 														if ($product->status == 1) {
 															?>
@@ -110,6 +110,7 @@
 													}
 													?>
 													<a href="<?php echo base_url();?>admin/product/category/add/<?php echo $product->product_id; ?>" class="btn btn-default icon-only">Categorize</a>
+													<a href="<?php echo base_url();?>admin/edit/product/<?php echo $product->product_id;?>" class="btn btn-default icon-only">Edit</a>
                                                 </td>
 											</tr>
 										<?php

@@ -69,7 +69,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET.pdf" download="PERSONAL-DATA-SHEET.pdf"> <strong>Download</strong> Registration Form </a>
 							</li>
 							<li class="">
-								<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">Login</a>
+								<?php
+								if (isset($_SESSION)) {
+									?>
+									<a href="<?php echo base_url(); ?>logout" role="button" style="padding-right:0">Logout</a>
+									<?php
+								}else{
+									?>
+										<a href="<?php echo base_url(); ?>login" role="button" style="padding-right:0">Login</a>
+									<?php
+								}
+								 ?>
+
 							</li>
 						</ul>
 					</div>

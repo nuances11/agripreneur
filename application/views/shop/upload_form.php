@@ -13,7 +13,7 @@
 				<h3> Registration Form Upload</h3>
 				<div class="well">
 					<div id="err"></div>
-					<form class="form-horizontal" id="upload_form">
+					<form class="form-horizontal" id="upload_form" data-url="<?php echo base_url();?>">
                         <div class="control-group">
 							<label class="control-label" for="fname">First name
 								<sup>*</sup>
@@ -31,11 +31,11 @@
 							</div>
 						</div>
                         <div class="control-group">
-							<label class="control-label" for="email">Email
+							<label class="control-label" for="contact">Contact
 								<sup>*</sup>
 							</label>
 							<div class="controls">
-								<input type="text" id="email" name="email" placeholder="First Name">
+								<input type="text" id="contact" name="contact" placeholder="Contact Number">
 							</div>
 						</div>
                         <div class="control-group">
@@ -43,7 +43,7 @@
 								<sup>*</sup>
 							</label>
 							<div class="controls">
-								<input type="text" id="fileToUpload" name="fileToUpload" placeholder="Registration Form">
+								<input type="file" id="fileToUpload" name="fileToUpload">
 							</div>
 						</div>
 

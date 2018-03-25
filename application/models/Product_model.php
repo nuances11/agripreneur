@@ -7,6 +7,18 @@ class Product_model extends CI_Model {
             $this->load->database();
     }
 
+    function get_product_info($id)
+    {
+        $this->db->select('*')
+                ->from('tbl_products')
+                ->where('product_id', $id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return [];
+    }
+
     function fetch_all_products()
     {
         $query = $this->db->query("
@@ -76,6 +88,18 @@ class Product_model extends CI_Model {
         return [];
     }
 
+    function get_unit_info($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_unit');
+        $this->db->where('unit_id', $id);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->row();
+        }
+        return [];
+    }
+
     function get_related_product($id)
     {
         $this->db->select('*');
@@ -116,6 +140,12 @@ class Product_model extends CI_Model {
         );
         $this->db->where('product_id', $id);
         return $this->db->update('tbl_products', $data);
+    }
+
+    function update_unit($data)
+    {
+        $this->db->where('unit_id', $this->input->post('unit_id'));
+        return $this->db->update('tbl_unit', $data);
     }
 
     function deactivate_product($id)

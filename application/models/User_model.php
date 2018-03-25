@@ -17,6 +17,23 @@ class User_model extends CI_Model {
         return $this->db->insert('tbl_products', $data);
     }
 
+    function update_product($id, $file_name)
+    {
+        $data = array (
+            "image" => $file_name,
+            "name" => $this->input->post('product_name'),
+            "quantity" => $this->input->post('quantity'),
+            "unit" => $this->input->post('unit'),
+            "price" => $this->input->post('price'),
+            "harvest_date" => $this->input->post('harvest_date'),
+            "availability" => $this->input->post('product_availability'),
+            "description" => $this->input->post('description')
+        );
+
+        $this->db->where('product_id', $id);
+        return $this->db->update('tbl_products', $data);
+    }
+
     function get_user_data($id)
     {
         $this->db->select('*');
@@ -29,12 +46,23 @@ class User_model extends CI_Model {
 		return [];
     }
 
+    function change_password($id)
+    {
+        $data = array(
+            "password" => sha1($this->input->post('new_pass'))
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('tbl_user', $data);
+    }
+
     function get_login_data($email, $pass)
     {
         $this->db->select('*');
         $this->db->from('tbl_user');
         $this->db->where('email', $email);
         $this->db->where('password', $pass);
+        $this->db->where('status', 1);
         $query = $this->db->get();
         if($query->num_rows()){
 			return $query->row();
@@ -136,13 +164,19 @@ class User_model extends CI_Model {
         return $this->db->update('tbl_user', $data);
     }
 
+    function admin_update_user($data)
+    {
+        $this->db->where('id', $this->input->post('user_id'));
+        return $this->db->update('tbl_user', $data);
+    }
+
     function get_user_count()
     {
         $this->db->select('*');
         $this->db->from('tbl_user');
         $this->db->where('type', 'User');
         $query = $this->db->get();
-        
+
         return $query->num_rows();
     }
 }

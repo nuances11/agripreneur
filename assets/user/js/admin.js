@@ -1,5 +1,87 @@
 $(function() {
 
+    $("#change_password").submit(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+        var formData = $(this);
+        var base_url = $('#base_url').val();
+        var action_url = $('#action_url').val();
+        var err_msg = '';
+        $('#err').html('');
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: action_url,
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if (!data.success) {
+                    $('#err').html('<div class="alert alert-danger" role="alert"><strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.errors + '</strong></div>');
+                } else {
+                    alert('Password updated successfully!');
+                    window.location.href = base_url + 'admin/users';
+                }
+            }
+        });
+
+    });
+
+    //User Registration
+    $("#user_save").submit(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+        var formData = $(this);
+        var base_url = $('#base_url').val();
+        var action_url = $('#action_url').val();
+        var err_msg = '';
+        $('#err').html('');
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: action_url,
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if (!data.success) {
+                    $('#err').html('<div class="alert alert-danger" role="alert"><strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.errors + '</strong></div>');
+                } else {
+                    alert('User created successfully!');
+                    window.location.href = base_url + 'admin/users';
+                }
+            }
+        });
+
+    });
+
+    $('#admin_update_user').submit(function(e){
+        e.preventDefault();
+        var formData = new FormData(this);
+        var base_url = $('#base_url').val();
+        var action_url = $('#action_url').val();
+
+        $.ajax({
+            type: 'POST',
+            url: action_url,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                if (!data.success) {
+                    $('#err').html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' + data.errors + '</div>');
+                } else {
+                    alert('Profile updated successfully!');
+                    window.location.href = base_url + 'admin/users';
+                }
+            }
+        });
+    })
+
     $('#add_category').submit(function(e) {
         e.preventDefault();
         var formData = $(this);
@@ -134,6 +216,27 @@ $(function() {
     })
 
     $('#add_unit').submit(function(e) {
+        e.preventDefault();
+        console.log(this);
+        var formData = $(this);
+        var base_url = $('#base_url').val();
+        var action_url = $('#action_url').val();
+        $.ajax({
+            type: 'POST',
+            url: action_url,
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if (!data.success) {
+                    $('#err').html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' + data.errors + '</div>');
+                } else {
+                    window.location.href = base_url + 'admin/unit';
+                }
+            }
+        });
+    })
+
+    $('#edit_unit').submit(function(e) {
         e.preventDefault();
         console.log(this);
         var formData = $(this);

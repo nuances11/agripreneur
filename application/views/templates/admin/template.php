@@ -113,10 +113,10 @@
                                         </ul>
                                     </li>
                                     <li class=""><a href="<?php echo base_url(); ?>admin/unit"><i class="fa fa-bars"></i> <span>Units</span></a></li>
+                                    <li class=""><a href="<?php echo base_url(); ?>admin/registration-forms"><i class="fa fa-bars"></i> <span>Registration Forms</span></a></li>
+                                    <li class=""><a href="<?php echo base_url(); ?>admin/users"><i class="fa fa-bars"></i> <span>Users</span></a></li>
 
-                                    <li class="nav-header">
-                                        <span class="">User</span>
-                                    </li>
+
                                     <!-- <li class=""><a href="<?php echo base_url(); ?>user/edit"><i class="fa fa-user"></i> <span>Edit Profile</span></a></li> -->
                                     <li class=""><a href="<?php echo base_url(); ?>logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
 

@@ -1,7 +1,7 @@
 $(function() {
 
     //User Registration
-    $("#user_save").submit(function(event) {
+    $("#user_save").submit(function(event) { 
         if (event.keyCode == 13) {
             event.preventDefault();
             return false;

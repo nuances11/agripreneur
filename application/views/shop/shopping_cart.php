@@ -1,6 +1,9 @@
 <div id="mainBody">
 	<div class="container">
 		<div class="row">
+			<pre>
+				<?php print_r($_SESSION) ?>
+			</pre>
 			<?php $this->load->view('shop/sidebar'); ?>
 			<div class="span9">
 				<ul class="breadcrumb">
@@ -88,25 +91,41 @@
 										<div class="control-group">
 											<label class="control-label" for="inputCountry">First Name </label>
 											<div class="controls">
-												<input type="text" id="customer_fname"  name="customer_fname">
+												<input type="text" id="customer_fname"  name="customer_fname"
+												<?php if (isset($_SESSION)): ?>
+													value="<?php echo $_SESSION['fname'];?>"
+												<?php endif; ?>
+												>
 											</div>
 										</div>
 										<div class="control-group">
 											<label class="control-label" for="inputCountry">Last Name </label>
 											<div class="controls">
-												<input type="text" id="customer_lname" name="customer_lname">
+												<input type="text" id="customer_lname" name="customer_lname"
+												<?php if (isset($_SESSION)): ?>
+													value="<?php echo $_SESSION['lname'];?>"
+												<?php endif; ?>
+												>
 											</div>
 										</div>
 										<div class="control-group">
 											<label class="control-label" for="inputCountry">Email </label>
 											<div class="controls">
-												<input type="email" id="customer_email" name="customer_email">
+												<input type="email" id="customer_email" name="customer_email"
+												<?php if (isset($_SESSION)): ?>
+													value="<?php echo $_SESSION['email'];?>"
+												<?php endif; ?>
+												>
 											</div>
 										</div>
 										<div class="control-group">
 											<label class="control-label" for="inputCountry">Contact No. </label>
 											<div class="controls">
-												<input type="text" id="customer_number" name="customer_number">
+												<input type="text" id="customer_number" name="customer_number"
+												<?php if (isset($_SESSION)): ?>
+													value="<?php echo $_SESSION['mobile'];?>"
+												<?php endif; ?>
+												>
 											</div>
 										</div>
 										<div class="control-group">

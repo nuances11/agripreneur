@@ -7,7 +7,8 @@ class Shop extends CI_Controller {
         parent::__construct();
 		$this->load->model('user_model');
 		$this->load->model('product_model');
-    $this->load->model('transaction_model');
+        $this->load->model('transaction_model');
+        $this->load->model('admin_model');
         $styles = array(
 
 		);
@@ -67,7 +68,8 @@ class Shop extends CI_Controller {
         $this->form_validation->set_rules('password','Password', 'required|min_length[8]');
         $this->form_validation->set_rules('cpassword', 'Password Confirmation', 'required|matches[password]');
         $this->form_validation->set_rules('address','Address', 'required');
-        $this->form_validation->set_rules('mobile','Mobile', 'required');
+        $this->form_validation->set_rules('mobile','Mobile #', 'required|regex_match[^(09|\+639)\d{9}$^]',
+            array('regex_match' => 'Please provide a valid %s <strong>ex: 09 or +639</strong>'));
         if ($this->form_validation->run() == FALSE) {
             $errors = array(
                 "errors" => validation_errors(),
@@ -90,7 +92,8 @@ class Shop extends CI_Controller {
                 "address" => $this->input->post('address'),
                 "longitude" => $this->input->post('longitude'),
                 "latitude" => $this->input->post('latitude'),
-                "mobile" => $this->input->post('mobile')
+                "mobile" => $this->input->post('mobile'),
+
             );
 
             $res = $this->user_model->save_user($data);
@@ -189,8 +192,11 @@ class Shop extends CI_Controller {
             if(!empty($user)){
                 $this->session->set_userdata( array(
                     'id' => $user->id,
+                    'fname' => $user->fname,
+                    'lname' => $user->lname,
                     'name'=> $user->fname . ' ' . $user->lname,
                     'email'=> $user->email,
+                    'mobile' => $user->mobile,
                     'type'=> $user->type,
                     'isLoggedIn'=>true
                     )
@@ -259,6 +265,7 @@ class Shop extends CI_Controller {
           $trans_id = $this->transaction_model->add_transaction($data);
               if (!empty($trans_id)) {
                     $trans = $this->transaction_model->add_product_per_trans($trans_id);
+                    $this->product_model->update_product_qty($trans_id);
                     if ($trans) {
                         $this->cart->destroy();
                         echo json_encode(array("success" => TRUE));
@@ -315,4 +322,119 @@ class Shop extends CI_Controller {
       $this->template->load_sub("categories", $this->user_model->get_categories_data());
       $this->template->load('shop/upload_form');
     }
+
+    function upload()
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        if (empty($_FILES['fileToUpload']['name']))
+        {
+            $this->form_validation->set_rules('fileToUpload','Registration Form', 'required');
+        }
+        $this->form_validation->set_rules('fname','First Name', 'required');
+        $this->form_validation->set_rules('lname','Last Name', 'required');
+        $this->form_validation->set_rules('contact','Contact Number', 'required|regex_match[^(09|\+639)\d{9}$^]',
+            array('regex_match' => 'Please provide a valid %s <strong>ex: 09 or +639</strong>')
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+            $data = array();
+            $temp = explode(".", $_FILES["fileToUpload"]["name"]);
+            $newfilename = round(microtime(true)) . '.' . end($temp);
+             // set path to store uploaded files
+             $config['upload_path'] = 'uploads/registration/';
+             // set allowed file types
+             $config['allowed_types'] = 'pdf';
+             // set upload limit, set 0 for no limit
+             $config['max_size'] = 0;
+
+             $config['file_name'] = $newfilename;
+
+             // load upload library with custom config settings
+             $this->load->library('upload', $config);
+
+             // if upload failed , display errors
+             if (!$this->upload->do_upload('fileToUpload'))
+             {
+                 $data['errors'] = $this->upload->display_errors();
+
+             }
+             else
+             {
+               $data['upload'] = $this->upload->data();
+
+               $reg = array(
+                    'file' => $newfilename,
+                    'fname' => $this->input->post('fname'),
+                    'lname' => $this->input->post('lname'),
+                    'contact' => $this->input->post('contact')
+                );
+               $res = $this->admin_model->upload_registration_form($reg);
+                if ($res) {
+                    $data['success'] = TRUE;
+                }else{
+                    $data['errors'] = FALSE;
+                }
+             // print uploaded file data
+             }
+
+            // $data = array();
+            //
+            // $temp = explode(".", $_FILES["fileToUpload"]["name"]);
+            // $newfilename = round(microtime(true)) . '.' . end($temp);
+            // $targetfolder = base_url() . "uploads/registration/";
+            //
+            // $targetfolder = $targetfolder . $newfilename ;
+            //
+            // $ok=1;
+            //
+            // $file_type=$_FILES['fileToUpload']['type'];
+            //
+            // if ($file_type=="application/pdf") {
+            //
+            //      if(move_uploaded_file($_FILES['fileToUpload']['name'], $targetfolder))
+            //
+            //      {
+            //
+            //          $data['upload'] = "The file ". $newfilename . " is uploaded";
+            //
+            //          $reg = array(
+            //              'file' => $newfilename,
+            //              'fname' => $this->input->post('fname'),
+            //              'lname' => $this->input->post('lname'),
+            //              'contact' => $this->input->post('contact')
+            //          );
+            //
+            //          $res = $this->admin_model->upload_registration_form($data);
+            //          if ($res) {
+            //              $data['success'] = TRUE;
+            //          }else{
+            //              $data['errors'] = FALSE;
+            //          }
+            //
+            //      }else {
+            //
+            //      $data['errors'] = "Error uploading file";
+            //
+            //      }
+            //
+            //  }else {
+            //
+            //      $data['error'] = "You may only upload PDF files.";
+            //
+            // }
+             echo json_encode($data);
+
+        }
+
+
+    }
+
 }

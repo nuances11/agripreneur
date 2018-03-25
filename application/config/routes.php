@@ -16,6 +16,7 @@ $route ['remove/(:any)'] = 'shop/remove/$1';
 $route ['place_order'] = 'shop/place_order';
 $route['send/sms'] = 'shop/send_sms';
 $route['upload/registration-form'] = 'shop/upload_form';
+$route['upload/form'] = 'shop/upload';
 
 
 /**
@@ -27,6 +28,8 @@ $route['user/edit'] = 'user/user_edit';
 $route['user/update'] = 'user/user_update';
 $route['product/add'] = 'user/product_add';
 $route['product/save'] = 'user/product_save';
+$route['product/edit/(:num)'] = 'user/product_edit/$1';
+$route['product/update'] = 'user/product_update';
 $route['product/list'] = 'user/product_list';
 
 /**
@@ -56,11 +59,22 @@ $route['admin/orders/cancelled'] = 'admin/orders_cancelled';
 $route['admin/view/order/(:num)'] = 'admin/view_order/$1';
 $route['admin/accept/order'] = 'admin/accept_order';
 $route['admin/cancel/order'] = 'admin/cancel_order';
+$route['admin/registration-forms'] = 'admin/registration_forms';
+$route['admin/pdf/(:num)'] = 'admin/pdf/$1';
+$route['admin/users'] = 'admin/users';
+$route['admin/user/add'] = 'admin/user_add';
+$route['admin/user/save'] = 'admin/user_save';
+$route['admin/user/edit/(:num)'] = 'admin/user_edit/$1';
+$route['admin/user/update'] = 'admin/user_update';
+$route['admin/user/(:num)/change-password'] = 'admin/user_change_password/$1';
+$route['admin/user/update_password'] = 'admin/update_password';
 
 //Unit
 $route['admin/unit'] = 'admin/unit';
 $route['admin/unit/add'] = 'admin/unit_add';
 $route['admin/unit/save'] = 'admin/unit_save';
+$route['admin/unit/edit/(:num)'] = 'admin/unit_edit/$1';
+$route['admin/unit/update'] = 'admin/unit_update';
 
 
 // Category

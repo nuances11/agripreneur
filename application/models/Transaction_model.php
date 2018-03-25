@@ -7,7 +7,7 @@ class Transaction_model extends CI_Model {
             $this->load->database();
     }
 
-    function add_transaction($data)
+    function add_transaction($data) 
     {
       $this->db->insert('tbl_transaction', $data);
       return $this->db->insert_id();

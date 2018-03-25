@@ -31,6 +31,99 @@ class User extends CI_Controller {
 		$this->template->load('user/index');
     }
 
+    function product_edit($id)
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('units', $this->product_model->get_all_units());
+        $this->template->load_sub('product', $this->product_model->get_product_info($id));
+		$this->template->load('user/product/edit_product');
+    }
+
+    function product_update()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->model('user_model');
+
+        $this->form_validation->set_rules('product_name','Product Name', 'required');
+        $this->form_validation->set_rules('quantity','Quantity', 'required');
+        $this->form_validation->set_rules('unit','Unit', 'required');
+        $this->form_validation->set_rules('price','Price', 'required');
+        $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
+        $this->form_validation->set_rules('product_availability','Product Availability', 'required');
+        $this->form_validation->set_rules('description','Description', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+
+            $file_name = '';
+
+            if(!file_exists($_FILES['fileToUpload']['name']) || !is_uploaded_file($_FILES['fileToUpload']['name'])) {
+                $file_name = $this->input->post('img_file');
+            }else{
+
+                $target_dir = "uploads/products/";
+                $file_name = basename($_FILES["fileToUpload"]["name"]);
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if($check !== false) {
+                    //echo json_encode(array("image" => "File is an image - " . $check["mime"]));
+                    $uploadOk = 1;
+                } else {
+                    echo json_encode(array("image" => "File is not an image."));
+                    $uploadOk = 0;
+                }
+
+                if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                    echo json_encode(array("size" => "Sorry, your file is too large."));
+                    //echo "Sorry, your file is too large.";
+                    $uploadOk = 0;
+                }
+                // Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+                    echo json_encode(array("format" => "Sorry, only JPG, JPEG, PNG & GIF files are allowed."));
+                    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $uploadOk = 0;
+                }
+
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo json_encode(array("upload" => "Sorry, your file was not uploaded."));
+                    //echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+                } else {
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        //echo json_encode(array("image" => "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded."));
+
+                        //echo "The file ". basename( $_FILES["product_image"]["name"]). " has been uploaded.";
+                    } else {
+                        echo json_encode(array("upload" => "Sorry, there was an error uploading your file."));
+                        //echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+
+            }
+
+            $res = $this->user_model->update_product($this->input->post('product_id'), $file_name);
+            if($res){
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
     function logout()
     {
         session_destroy();
@@ -57,8 +150,11 @@ class User extends CI_Controller {
             if(!empty($user)){
                 $this->session->set_userdata( array(
                     'id' => $user->id,
+                    'fname' => $user->fname,
+                    'lname' => $user->lname,
                     'name'=> $user->fname . ' ' . $user->lname,
                     'email'=> $user->email,
+                    'mobile' => $user->mobile,
                     'type'=> $user->type,
                     'isLoggedIn'=>true
                     )

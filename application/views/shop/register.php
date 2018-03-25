@@ -8,7 +8,7 @@
 						<a href="<?php echo base_url();?>shop">Home</a>
 						<span class="divider">/</span>
 					</li>
-					<li class="active">Registration</li>
+					<li class="active">Registration</li> 
 				</ul>
 				<h3> Registration</h3>
 				<div class="well">

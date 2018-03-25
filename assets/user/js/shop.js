@@ -142,6 +142,33 @@ $(function() {
 
     })
 
+    $("#upload_form").submit(function(event) {
+
+        var formData = new FormData(this);
+        var base_url = $(this).data('url');
+
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: base_url + "upload/form",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                if (!data.success) {
+                    $('#err').html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' + data.errors + '</div>');
+                } else {
+                    alert('Form uploaded successfully!');
+                    window.location.reload(true);
+                }
+            }
+        });
+
+    });
+
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);

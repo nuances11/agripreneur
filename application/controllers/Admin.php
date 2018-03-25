@@ -13,16 +13,16 @@ class Admin extends CI_Controller {
         $this->load->model('transaction_model');
 
         $styles = array(
-            'assets/user/css/prism/prism.css',
-            'assets/user/css/ladda/ladda-themeless.min.css',
+
 		);
 		$js = array(
             'assets/user/js/login.js',
             'assets/user/js/user.js',
             'assets/user/js/admin.js',
-            'assets/user/js/switchery/switchery.min.js',
-            'assets/user/js/ladda/ladda.min.js',
-            'assets/user/js/prism/prism.js'
+            'assets/user/js/chart/Chart.bundle.js',
+            'assets/user/js/chart/Chart.bundle.min.js',
+            'assets/user/js/chart/Chart.js',
+            'assets/user/js/chart/Chart.min.js'
 
 		);
 
@@ -37,12 +37,172 @@ class Admin extends CI_Controller {
 
     function index()
 	{
+
         $this->template->load_sub('sales_count', $this->transaction_model->get_sales_count());
         $this->template->load_sub('user_count', $this->user_model->get_user_count());
         $this->template->load_sub('order_count', $this->transaction_model->get_order_count());
         $this->template->load_sub('product_count', $this->product_model->get_product_count());
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
 		$this->template->load('admin/index');
+    }
+
+    function users()
+    {
+        $extra_js = '
+            $("#users").DataTable();
+		';
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('users', $this->user_model->get_all_users());
+        $this->template->load('admin/users');
+    }
+
+    function user_add()
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load('admin/user_add');
+    }
+
+    function user_save()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->model('user_model');
+        $this->template->set_title('User - Register');
+
+
+        $this->form_validation->set_rules('title','Title', 'required');
+        $this->form_validation->set_rules('fname','First Name', 'required');
+        $this->form_validation->set_rules('lname','Last Name', 'required');
+        $this->form_validation->set_rules('email','Email Address','required|valid_email|is_unique[tbl_user.email]',
+            array('is_unique' => '%s already used. Please provide a unique one.')
+        );
+        $this->form_validation->set_rules('password','Password', 'required|min_length[8]');
+        $this->form_validation->set_rules('cpassword', 'Password Confirmation', 'required|matches[password]');
+        $this->form_validation->set_rules('address','Address', 'required');
+        $this->form_validation->set_rules('mobile','Mobile', 'required|regex_match[^(09|\+639)\d{9}$^]',
+            array('regex_match' => 'Please provide a valid %s <strong>ex: 09 or +639</strong>'));
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+
+            $data = array(
+
+                "type" => 'User',
+                "email" => $this->input->post('email'),
+                "password" => sha1($this->input->post('password')),
+                "status" => $this->input->post('status'),
+                "title" => $this->input->post('title'),
+                "fname" => $this->input->post('fname'),
+                "lname" => $this->input->post('lname'),
+                "gender" => $this->input->post('gender'),
+                "birthday" => $this->input->post('day') . '-' .  $this->input->post('month') . '-' . $this->input->post('year'),
+                "address" => $this->input->post('address'),
+                "longitude" => $this->input->post('longitude'),
+                "latitude" => $this->input->post('latitude'),
+                "mobile" => $this->input->post('mobile')
+            );
+
+            $res = $this->user_model->save_user($data);
+            if($res){
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
+    function user_edit($id)
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($id));
+		$this->template->load('admin/edit_profile');
+    }
+
+    function user_update()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->model('user_model');
+
+        $this->form_validation->set_rules('status','Status', 'required');
+        $this->form_validation->set_rules('title','Title', 'required');
+        $this->form_validation->set_rules('fname','First Name', 'required');
+        $this->form_validation->set_rules('lname','Last Name', 'required');
+        $this->form_validation->set_rules('email','Email Address','required|valid_email');
+        $this->form_validation->set_rules('address','Address', 'required');
+        $this->form_validation->set_rules('mobile','Mobile', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+
+            $data = array(
+                "status" => $this->input->post('status'),
+                "email" => $this->input->post('email'),
+                "title" => $this->input->post('title'),
+                "fname" => $this->input->post('fname'),
+                "lname" => $this->input->post('lname'),
+                "gender" => $this->input->post('gender'),
+                "birthday" => $this->input->post('day') . '-' .  $this->input->post('month') . '-' . $this->input->post('year'),
+                "address" => $this->input->post('address'),
+                "longitude" => $this->input->post('longitude'),
+                "latitude" => $this->input->post('latitude'),
+                "mobile" => $this->input->post('mobile')
+            );
+
+            $res = $this->user_model->admin_update_user($data);
+            if($res){
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+
+        }
+    }
+
+    function user_change_password($id)
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($id));
+		$this->template->load('admin/change_password');
+    }
+
+    function update_password()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+
+        $this->form_validation->set_rules('new_pass','New Password', 'required');
+        $this->form_validation->set_rules('confirm_pass','Confirm Password', 'required|matches[new_pass]');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+
+            $res = $this->user_model->change_password($this->input->post('user_id'));
+            if($res){
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Category Added Successfully!</div>');
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
     }
 
     function category()
@@ -470,6 +630,45 @@ class Admin extends CI_Controller {
         }
     }
 
+    function unit_edit($id)
+    {
+        $this->template->load_sub('unit', $this->product_model->get_unit_info($id));
+        $this->template->load('admin/product/edit_unit');
+    }
+
+    function unit_update()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('unit_name','Unit Name', 'required');
+        $this->form_validation->set_rules('unit_identifier','Unit Identifier', 'required');
+        $this->form_validation->set_rules('status','Status', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+            $data = array (
+                "unit_name" => $this->input->post('unit_name'),
+                "unit_identifier" => $this->input->post('unit_identifier'),
+                "status" => $this->input->post('status')
+            );
+
+            $res = $this->product_model->update_unit($data);
+            if($res){
+                $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Unit updated successfully!</div>');
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
     function product_activate($id)
     {
         $res = $this->product_model->activate_product($id);
@@ -478,6 +677,26 @@ class Admin extends CI_Controller {
             $this->product();
         }
     }
+
+    function registration_forms()
+    {
+        $extra_js = '
+            $("#forms").DataTable();
+		';
+        $this->template->extra_js($extra_js);
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('forms', $this->admin_model->get_registration_form());
+        $this->template->load('admin/registration-forms');
+    }
+
+    function pdf($id)
+    {
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('form', $this->admin_model->get_form($id));
+        $this->template->load('admin/pdf');
+    }
+
+
 
     function product_deactivate($id)
     {
@@ -536,8 +755,8 @@ class Admin extends CI_Controller {
         if ($result) {
             $data['transaction'] = 'Order Accepted';
             // echo json_encode(array('transaction' => TRUE));
-            $update = $this->product_model->update_product_qty($trans_id);
-            if ($update) {
+            // $update = $this->product_model->update_product_qty($trans_id);
+            // if ($update) {
                 $this->session->set_flashdata('success', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>Order Accepted!</div>');
                 // echo json_encode(array('product' => TRUE));
                 $message = 'Your order has been accepted.';
@@ -557,10 +776,10 @@ class Admin extends CI_Controller {
                     $data['sms_error'] = "Error Num ". $sms . " was encountered!";
                 }
 
-            }else{
-                $data['error'] = 'Product quantity is less than the order quantity';
-                // echo json_encode(array('error' => 'Product quantity is less than the order quantity'));
-            }
+            // }else{
+            //     $data['error'] = 'Product quantity is less than the order quantity';
+            //     // echo json_encode(array('error' => 'Product quantity is less than the order quantity'));
+            // }
         }else {
             $data['success'] = FALSE;
             $data['transaction'] = 'Transaction Failed';

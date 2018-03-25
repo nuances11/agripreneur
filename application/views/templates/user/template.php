@@ -100,13 +100,14 @@
                                     </li>
                                     <li class="">
                                         <a href="<?php echo base_url(); ?>user"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                                        <a href="<?php echo base_url(); ?>"><i class="fa fa-dashboard"></i> <span>Shop Now</span></a>
                                     </li>
 
                                     <li class="nav-header">
                                         <span class="">Product</span>
                                     </li>
                                     <li class=""><a href="<?php echo base_url(); ?>product/add"><i class="fa fa-bars"></i> <span>Add Product</span></a></li>
-                                    <li class=""><a href="<?php echo base_url(); ?>product/list"><i class="fa fa-bars"></i> <span>Product List</span></a></li>
+                                    <li class=""><a href="<?php echo base_url(); ?>product/list"><i class="fa fa-bars"></i> <span>My Products</span></a></li>
                                     <li class="nav-header">
                                         <span class="">User</span>
                                     </li>
