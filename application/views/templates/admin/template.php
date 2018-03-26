@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+    defined('BASEPATH') OR exit('No direct script access allowed');
+    if (isset($_SESSION['id'])) {
+        $type = $_SESSION['type'];
+        if ($type != 'Admin') {
+            header("Location:" . base_url() . "login");
+        }
+    }else{
+        header("Location:" . base_url() . "login");
+    }
+?>
 <html lang="en">
     <head>
         <meta charset="utf-8">

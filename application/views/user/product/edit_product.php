@@ -48,7 +48,7 @@
                             <div class="form-group">
 								<label for="product_image" class="col-sm-2 control-label">Product Image</label>
 								<div class="col-sm-10">
-									<input type="file" class="form-control" name="fileToUpload" id="fileToUpload" value="<?php echo $product->image;?>">
+									<input type="file" class="form-control" name="fileToUpload" id="fileToUpload">
 								</div>
 							</div>
 							<div class="form-group">

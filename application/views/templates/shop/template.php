@@ -66,11 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<a href="<?php echo base_url();?>upload/registration-form"><strong>Upload</strong> Registration Form</a>
 							</li>
 							<li class="">
-								<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET.pdf" download="PERSONAL-DATA-SHEET.pdf"> <strong>Download</strong> Registration Form </a>
+								<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET-Final.pdf" download="PERSONAL-DATA-SHEET-Final.pdf"> <strong>Download</strong> Registration Form </a>
 							</li>
 							<li class="">
 								<?php
-								if (isset($_SESSION)) {
+								if (isset($_SESSION['id'])) {
 									?>
 									<a href="<?php echo base_url(); ?>logout" role="button" style="padding-right:0">Logout</a>
 									<?php

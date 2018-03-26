@@ -64,10 +64,11 @@ class User extends CI_Controller {
 
             $file_name = '';
 
-            if(!file_exists($_FILES['fileToUpload']['name']) || !is_uploaded_file($_FILES['fileToUpload']['name'])) {
+            // if(!file_exists($_FILES['fileToUpload']['name']) || !is_uploaded_file($_FILES['fileToUpload']['name']))
+            if ($_FILES['fileToUpload']['size'] == 0 && $_FILES['fileToUpload']['error'] == 0)
+            {
                 $file_name = $this->input->post('img_file');
             }else{
-
                 $target_dir = "uploads/products/";
                 $file_name = basename($_FILES["fileToUpload"]["name"]);
                 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -112,8 +113,9 @@ class User extends CI_Controller {
                         //echo "Sorry, there was an error uploading your file.";
                     }
                 }
-
             }
+            //print_r($file_name);
+
 
             $res = $this->user_model->update_product($this->input->post('product_id'), $file_name);
             if($res){
@@ -151,7 +153,7 @@ class User extends CI_Controller {
                 $this->session->set_userdata( array(
                     'id' => $user->id,
                     'fname' => $user->fname,
-                    'lname' => $user->lname,
+                    'fname' => $user->lname,
                     'name'=> $user->fname . ' ' . $user->lname,
                     'email'=> $user->email,
                     'mobile' => $user->mobile,

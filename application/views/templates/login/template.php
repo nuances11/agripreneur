@@ -1,4 +1,17 @@
 <!DOCTYPE html>
+<?php
+    defined('BASEPATH') OR exit('No direct script access allowed');
+    if (isset($_SESSION['id'])) {
+        $type = $_SESSION['type'];
+        if ($type == 'User') {
+            header("Location:" . base_url() . "user");
+        }elseif ($type == 'Admin') {
+            header("Location:" . base_url() . "admin");
+        }else{
+            header("Location:" . base_url());
+        }
+    }
+?>
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <html lang="en">
     <head>
@@ -52,13 +65,13 @@
 			foreach($add_js as $js){ ?>
 				<script src="<?php echo base_url() . $js; ?>"></script>
 			<?php }
-		} 
+		}
 		if(isset($extra_js)){
 			?><script><?php
 			echo $extra_js;
 			?></script><?php
 		}
-		
+
 		?>
         <script>
             $(function(){

@@ -1,9 +1,6 @@
 <div id="mainBody">
 	<div class="container">
 		<div class="row">
-			<pre>
-				<?php print_r($_SESSION) ?>
-			</pre>
 			<?php $this->load->view('shop/sidebar'); ?>
 			<div class="span9">
 				<ul class="breadcrumb">
@@ -92,7 +89,7 @@
 											<label class="control-label" for="inputCountry">First Name </label>
 											<div class="controls">
 												<input type="text" id="customer_fname"  name="customer_fname"
-												<?php if (isset($_SESSION)): ?>
+												<?php if (isset($_SESSION['id'])): ?>
 													value="<?php echo $_SESSION['fname'];?>"
 												<?php endif; ?>
 												>
@@ -102,7 +99,7 @@
 											<label class="control-label" for="inputCountry">Last Name </label>
 											<div class="controls">
 												<input type="text" id="customer_lname" name="customer_lname"
-												<?php if (isset($_SESSION)): ?>
+												<?php if (isset($_SESSION['id'])): ?>
 													value="<?php echo $_SESSION['lname'];?>"
 												<?php endif; ?>
 												>
@@ -112,7 +109,7 @@
 											<label class="control-label" for="inputCountry">Email </label>
 											<div class="controls">
 												<input type="email" id="customer_email" name="customer_email"
-												<?php if (isset($_SESSION)): ?>
+												<?php if (isset($_SESSION['id'])): ?>
 													value="<?php echo $_SESSION['email'];?>"
 												<?php endif; ?>
 												>
@@ -122,7 +119,7 @@
 											<label class="control-label" for="inputCountry">Contact No. </label>
 											<div class="controls">
 												<input type="text" id="customer_number" name="customer_number"
-												<?php if (isset($_SESSION)): ?>
+												<?php if (isset($_SESSION['id'])): ?>
 													value="<?php echo $_SESSION['mobile'];?>"
 												<?php endif; ?>
 												>
