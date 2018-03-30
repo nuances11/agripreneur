@@ -13,16 +13,19 @@ class Admin extends CI_Controller {
         $this->load->model('transaction_model');
 
         $styles = array(
-
+            'assets/user/css/daterangepicker.css',
 		);
 		$js = array(
             'assets/user/js/login.js',
             'assets/user/js/user.js',
             'assets/user/js/admin.js',
+            'assets/user/js/location.js',
             'assets/user/js/chart/Chart.bundle.js',
             'assets/user/js/chart/Chart.bundle.min.js',
             'assets/user/js/chart/Chart.js',
-            'assets/user/js/chart/Chart.min.js'
+            'assets/user/js/chart/Chart.min.js',
+            'assets/user/js/moment/moment.min.js',
+            'assets/user/js/daterangepicker.js',
 
 		);
 
@@ -525,6 +528,115 @@ class Admin extends CI_Controller {
         }
     }
 
+    function product_edit($id)
+    {
+        $extra_js = '
+            var dateToday = new Date();
+            $("#product_availability").daterangepicker({
+                minDate: dateToday,
+                timePicker: true,
+                timePickerIncrement: 1,
+                locale: {
+                    format: "MM/DD/YYYY h:mm A"
+                }
+            });
+		';
+
+        $this->template->extra_js($extra_js);
+
+        $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
+        $this->template->load_sub('units', $this->product_model->get_all_units());
+        $this->template->load_sub('product', $this->product_model->get_product_info($id));
+		$this->template->load('admin/product/edit_product');
+    }
+
+    function product_update()
+    {
+        //Load Libraries
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->model('user_model');
+
+        $this->form_validation->set_rules('product_name','Product Name', 'required');
+        $this->form_validation->set_rules('quantity','Quantity', 'required|numeric');
+        $this->form_validation->set_rules('unit','Unit', 'required');
+        $this->form_validation->set_rules('price','Price', 'required|numeric');
+        $this->form_validation->set_rules('harvest_date','Harvest Datae', 'required');
+        $this->form_validation->set_rules('product_availability','Product Availability', 'required');
+        $this->form_validation->set_rules('description','Description', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array(
+                "errors" => validation_errors(),
+                "success" => FALSE
+            );
+
+            echo json_encode($errors);
+        }else{
+
+            $file_name = '';
+
+            // if(!file_exists($_FILES['fileToUpload']['name']) || !is_uploaded_file($_FILES['fileToUpload']['name']))
+            if ($_FILES['fileToUpload']['size'] == 0 && $_FILES['fileToUpload']['error'] == 4)
+            {
+                $file_name = $this->input->post('img_file');
+            }else{
+                $target_dir = "uploads/products/";
+                $file_name = basename($_FILES["fileToUpload"]["name"]);
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if($check !== false) {
+                    //echo json_encode(array("image" => "File is an image - " . $check["mime"]));
+                    $uploadOk = 1;
+                } else {
+                    echo json_encode(array("image" => "File is not an image."));
+                    $uploadOk = 0;
+                }
+
+                if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                    echo json_encode(array("size" => "Sorry, your file is too large."));
+                    //echo "Sorry, your file is too large.";
+                    $uploadOk = 0;
+                }
+                // Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+                    echo json_encode(array("format" => "Sorry, only JPG, JPEG, PNG & GIF files are allowed."));
+                    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $uploadOk = 0;
+                }
+
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo json_encode(array("upload" => "Sorry, your file was not uploaded."));
+                    //echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+                } else {
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        //echo json_encode(array("image" => "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded."));
+
+                        //echo "The file ". basename( $_FILES["product_image"]["name"]). " has been uploaded.";
+                    } else {
+                        echo json_encode(array("upload" => "Sorry, there was an error uploading your file."));
+                        //echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
+            //print_r($file_name);
+
+
+            $res = $this->user_model->update_product($this->input->post('product_id'), $file_name);
+            if($res){
+                echo json_encode(array("success" => TRUE));
+            }else{
+                echo json_encode(array("success" => FALSE));
+            }
+        }
+    }
+
     function product_add_category($id)
     {
         $extra_js = '
@@ -734,7 +846,7 @@ class Admin extends CI_Controller {
 		';
         $this->template->extra_js($extra_js);
         $this->template->load_sub('orders', $this->transaction_model->get_orders_cancelled());
-        $this->template->load('admin/orders_cancelled');
+        $this->template->load('admin/orders_cancelled'); 
     }
 
     function view_order($id)

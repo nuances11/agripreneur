@@ -4,7 +4,7 @@
 			<?php echo ucfirst($user->fname) . ' ' . ucfirst($user->lname) ;?>
 			<small class="ml-10">My Profile</small>
 		</h4>
-		
+
 	</div>
 	<!-- /.col-md-6 -->
 	<div class="col-md-6 right-side">
@@ -27,7 +27,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<img
 						<?php
-							if (!empty($user->image)) {
+							if ($user->image != NULL) {
 								?>
 								src="<?php echo base_url();?>uploads/user/<?php echo $user->image; ?>"
 								<?php

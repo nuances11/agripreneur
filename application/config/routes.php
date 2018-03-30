@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
+/** 
  * Shop Routes
  */
 $route['shop/product/(:num)'] = 'shop/product_details/$1';
@@ -31,6 +31,10 @@ $route['product/save'] = 'user/product_save';
 $route['product/edit/(:num)'] = 'user/product_edit/$1';
 $route['product/update'] = 'user/product_update';
 $route['product/list'] = 'user/product_list';
+$route['user/orders/pending'] = 'user/orders_pending';
+$route['user/orders/accepted'] = 'user/orders_accepted';
+$route['user/orders/cancelled'] = 'user/orders_cancelled';
+$route['user/view/order/(:num)'] = 'user/view_order/$1';
 
 /**
  * Cart routes
@@ -66,6 +70,8 @@ $route['admin/user/add'] = 'admin/user_add';
 $route['admin/user/save'] = 'admin/user_save';
 $route['admin/user/edit/(:num)'] = 'admin/user_edit/$1';
 $route['admin/user/update'] = 'admin/user_update';
+$route['admin/product/edit/(:num)'] = 'admin/product_edit/$1';
+$route['admin/product/update'] = 'admin/product_update';
 $route['admin/user/(:num)/change-password'] = 'admin/user_change_password/$1';
 $route['admin/user/update_password'] = 'admin/update_password';
 

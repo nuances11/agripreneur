@@ -154,16 +154,10 @@
         <script src="<?php echo base_url(); ?>assets/user/js/jquery/jquery-2.2.4.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/jquery-ui/jquery-ui.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/bootstrap/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script>
 
             <!-- ========== ADDITIONAL JS FILES ========== -->
-        <?php if(isset($add_js)){
-			foreach($add_js as $js){ ?>
-				<script src="<?php echo base_url() . $js; ?>"></script>
-			<?php }
-		}
-
-
-		?>
+        
 
         <script src="<?php echo base_url(); ?>assets/user/js/pace/pace.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/lobipanel/lobipanel.min.js"></script>
@@ -188,6 +182,14 @@
         <script src="<?php echo base_url(); ?>assets/user/js/traffic-chart.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/task-list.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/DataTables/datatables.min.js"></script>
+        <?php if(isset($add_js)){
+			foreach($add_js as $js){ ?>
+				<script src="<?php echo base_url() . $js; ?>"></script>
+			<?php }
+		}
+
+
+		?>
 
         <?php
         if(isset($extra_js)){

@@ -117,6 +117,78 @@ class Transaction_model extends CI_Model {
         return [];
     }
 
+    // User Side
+    function get_user_orders_pending()
+    {
+        $this->db->select('*')
+                ->from('tbl_transaction')
+                ->where('transaction_status', '0')
+                ->where('user_id', $this->session->userdata('id'));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return [];
+    }
+
+    function get_user_orders_cancelled()
+    {
+        $this->db->select('*')
+                ->from('tbl_transaction')
+                ->where('transaction_status', '2')
+                ->where('user_id', $this->session->userdata('id'));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return [];
+    }
+
+    function get_user_orders_accepted()
+    {
+        $this->db->select('*')
+                ->from('tbl_transaction')
+                ->where('transaction_status', '1')
+                ->where('user_id', $this->session->userdata('id'));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return [];
+    }
+
+    function get_user_order_details($id)
+    {
+        
+        $query = $this->db->query("
+            SELECT
+                *
+            FROM tbl_product_per_transaction
+            WHERE transaction_id = $id
+        ");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return [];
+    }
+
+    function get_user_transaction_details($id)
+    {
+        $user_id = $this->session->userdata('id');
+        $query = $this->db->query("
+            SELECT
+                *
+            FROM tbl_transaction
+            WHERE transaction_id = $id
+            AND user_id = $user_id
+        ");
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return [];
+    }
+    
+
     function accept_order($trans_id)
     {
         $data = array(

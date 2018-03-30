@@ -44,6 +44,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="threshold" class="col-sm-2 control-label">Threshold</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" id="threshold" name="threshold">
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="predefined" class="col-sm-2 control-label">Unit</label>
 								<div class="col-sm-10">
 									<select class="form-control" name="unit">
@@ -73,7 +79,7 @@
                             <div class="form-group">
                                 <label for="product_availability" class="col-sm-2 control-label">Product Availability</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="product_availability" name="product_availability">
+                                    <input type="text" class="form-control" id="product_availability" name="product_availability">
                                 </div>
                             </div>
                             <div class="form-group">

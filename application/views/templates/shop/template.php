@@ -62,12 +62,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 						</form>
 						<ul id="topMenu" class="nav pull-right">
-							<li class="">
-									<a href="<?php echo base_url();?>upload/registration-form"><strong>Upload</strong> Registration Form</a>
-							</li>
-							<li class="">
-								<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET-Final.pdf" download="PERSONAL-DATA-SHEET-Final.pdf"> <strong>Download</strong> Registration Form </a>
-							</li>
+							<?php
+								if (!isset($_SESSION['id'])) {
+									?>
+									<li class="">
+										<a href="<?php echo base_url();?>upload/registration-form"><strong>Upload</strong> Registration Form</a>
+									</li>
+									<?php
+								}
+							?>
+							
+							<?php
+								if (!isset($_SESSION['id'])) {
+									?>
+									<li class="">
+										<a href="<?php echo base_url();?>downloads/PERSONAL-DATA-SHEET-Final.pdf" download="PERSONAL-DATA-SHEET-Final.pdf"> <strong>Download</strong> Registration Form </a>
+									</li>
+									<?php
+								}
+							?>
+							<?php
+								if (isset($_SESSION['id'])) {
+									?>
+									<li class="">
+									<a href="<?php echo base_url(); ?>user" role="button" style="padding-right:0">My Account</a>
+									</li>
+									<?php
+								}
+								?>
 							<li class="">
 								<?php
 								if (isset($_SESSION['id'])) {
@@ -128,6 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url(); ?>assets/js/jquery.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/js/google-code-prettify/prettify.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script>
 
 		<?php if(isset($add_js)){
 			foreach($add_js as $js){ ?>
@@ -138,8 +161,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url(); ?>assets/js/jquery.lightbox-0.5.js"></script>
 
 		<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+		
 
-		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script> -->
+		
 		<?php
 		if(isset($extra_js)){
 			?><script><?php

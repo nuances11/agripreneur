@@ -110,7 +110,7 @@
 													}
 													?>
 													<a href="<?php echo base_url();?>admin/product/category/add/<?php echo $product->product_id; ?>" class="btn btn-default icon-only">Categorize</a>
-													<a href="<?php echo base_url();?>admin/edit/product/<?php echo $product->product_id;?>" class="btn btn-default icon-only">Edit</a>
+													<a href="<?php echo base_url();?>admin/product/edit/<?php echo $product->product_id;?>" class="btn btn-default icon-only">Edit</a>
                                                 </td>
 											</tr>
 										<?php

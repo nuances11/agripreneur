@@ -64,9 +64,12 @@
 													>
 												</td>
 												<td><?php echo $product->name ?></td>
-												<td><?php echo $product->unit ?></td>
+												<td><?php echo $product->unit_identifier ?></td>
 												<td><?php echo number_format($product->price,2) ?></td>
-												<td><?php echo $product->availability ?></td>
+												<td>
+													<?php
+														echo date('F d, Y h:i A', strtotime($product->availability_start)) . ' - ' . date('F d, Y h:i A', strtotime($product->availability_end)); ?>
+												</td>
 												<td><a href="<?php echo base_url();?>product/edit/<?php echo $product->product_id ;?>" class="btn btn-success icon-only"><i class="fa fa-pencil"></i></a></td>
 											</tr>
 										<?php

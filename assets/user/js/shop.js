@@ -182,7 +182,7 @@ $(function() {
         var subcategory = $(this).data('subcategory');
         var filter = $(this).val();
         var base_url = $(this).data('url');
-        var type = $(this).data('filter');
+        var type = $(this).data('type');
         var loc = '';
         if (type == 'all') {
             window.location.href = base_url + 'products/all?q=' + filter;

@@ -15,7 +15,8 @@ class Shop extends CI_Controller {
 		$js = array(
             'assets/user/js/login.js',
 			'assets/user/js/register.js',
-			'assets/user/js/shop.js'
+            'assets/user/js/shop.js',
+            'assets/user/js/location.js'
 
 		);
 
@@ -229,7 +230,7 @@ class Shop extends CI_Controller {
     }
 
     function place_order()
-    {
+    { 
       //$this->cart->contents()
       $this->load->library('form_validation');
       $this->load->helper('form');
@@ -249,16 +250,20 @@ class Shop extends CI_Controller {
           echo json_encode($errors);
       }else{
         $grand_total = 0;
+        $user_id = '';
         foreach ($this->cart->contents() as $item) {
             $grand_total = $grand_total + $item['subtotal'];
         }
-
+            if (isset($_POST['user_id'])) {
+                $user_id = $this->input->post('user_id');
+            }
           $data = array(
               'customer_fname' => $this->input->post('customer_fname'),
               'customer_lname' => $this->input->post('customer_lname'),
               'customer_email' => $this->input->post('customer_email'),
               'customer_number' => $this->input->post('customer_number'),
               'total_amount' => $grand_total,
+              'user_id' => $user_id,
               'transaction_status' => 0
           );
 

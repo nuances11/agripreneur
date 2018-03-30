@@ -39,7 +39,10 @@
 
         <?php if(isset($additional_css)){
 			foreach($additional_css as $css){
-			  echo link_tag($css);
+			  //echo link_tag($css);
+              ?>
+              <link rel="stylesheet" href="<?php echo base_url() . $css;?>">
+              <?php
 			}
 		} ?>
     </head>
@@ -118,6 +121,14 @@
                                     </li>
                                     <li class=""><a href="<?php echo base_url(); ?>product/add"><i class="fa fa-bars"></i> <span>Add Product</span></a></li>
                                     <li class=""><a href="<?php echo base_url(); ?>product/list"><i class="fa fa-bars"></i> <span>My Products</span></a></li>
+                                    <li class="has-children">
+                                        <a href="#"><i class="fa fa-bars"></i> <span>Orders</span> <i class="fa fa-angle-right arrow"></i></a>
+                                        <ul class="child-nav" style="display: none;">
+                                            <li><a href="<?php echo base_url(); ?>user/orders/pending"><i class="fa fa-file-text"></i> <span>Pending</span></a></li>
+                                            <li><a href="<?php echo base_url(); ?>user/orders/accepted"><i class="fa fa-file-text"></i> <span>Accepted</span></a></li>
+                                            <li><a href="<?php echo base_url(); ?>user/orders/cancelled"><i class="fa fa-file-text"></i> <span>Cancelled</span></a></li>
+                                        </ul>
+                                    </li>
                                     <li class="nav-header">
                                         <span class="">User</span>
                                     </li>
@@ -151,6 +162,7 @@
         <script src="<?php echo base_url(); ?>assets/user/js/lobipanel/lobipanel.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/iscroll/iscroll.js"></script>
         <script src="<?php echo base_url(); ?>assets/user/js/main.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API_KEY ?>&libraries=places"></script>
 
         <!-- ========== PAGE JS FILES ========== -->
         <script src="<?php echo base_url(); ?>assets/user/js/prism/prism.js"></script>

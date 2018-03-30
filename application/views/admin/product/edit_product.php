@@ -21,8 +21,8 @@
 					</div>
 					<div class="panel-body">
 						<div id="err"></div>
-						<form class="form-horizontal" id="edit_product" enctype="multipart/form-data">
-							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>product/update">
+						<form class="form-horizontal" id="admin_edit_product" enctype="multipart/form-data">
+							<input type="hidden" name="action_url" id="action_url" value="<?php echo base_url();?>admin/product/update">
 							<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url();?>">
 							<input type="hidden" name="img_file" value="<?php echo $product->image;?>">
 							<input type="hidden" name="product_id" value="<?php echo $product->product_id;?>">
@@ -105,7 +105,7 @@
                             <div class="form-group">
                                 <label for="description" class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="description" name="description" rows="5"> <?php echo $product->description;?></textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="5"><?php echo $product->description;?></textarea>
                                 </div>
                             </div>
                             <div class="btn-group pull-right mt-10" role="group">

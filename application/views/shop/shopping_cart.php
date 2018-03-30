@@ -85,6 +85,11 @@
 								<div class="modal-body">
 									<div id="err"></div>
 									<form class="form-horizontal" id="place_order" method="POST" data-url="<?php echo base_url();?>" data-action="<?php echo base_url();?>place_order">
+									<?php if (isset($_SESSION['id'])) {
+										?>
+										<input type="hidden" name="user_id" value="<?php echo $_SESSION['id'];?>">
+										<?php
+									}?>
 										<div class="control-group">
 											<label class="control-label" for="inputCountry">First Name </label>
 											<div class="controls">

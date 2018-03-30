@@ -84,17 +84,17 @@
 											<td class="techSpecTD1">Producer: </td>
 											<td class="techSpecTD2"><?php echo $producer->title. ' ' . ucfirst($producer->fname). ' ' . ucfirst($producer->lname)  ?></td>
 										</tr>
-										<tr class="techSpecRow">
+										<!-- <tr class="techSpecRow">
 											<td class="techSpecTD1">Location:</td>
 											<td class="techSpecTD2"><?php echo $producer->address ?></td>
-										</tr>
+										</tr> -->
 										<tr class="techSpecRow">
 											<td class="techSpecTD1">Available Until:</td>
-											<td class="techSpecTD2"> <?php echo date("l jS \of F Y h:i:s A", strtotime($producer->availability)) ?></td>
+											<td class="techSpecTD2"> <?php echo date("l jS \of F Y h:i:s A", strtotime($producer->availability_end)) ?></td>
 										</tr>
 										<tr class="techSpecRow">
 											<td class="techSpecTD1">Harvest Date:</td>
-											<td class="techSpecTD2"> <?php echo date("l jS \of F Y h:i:s A", strtotime($producer->harvest_date)) ?></td>
+											<td class="techSpecTD2"> <?php echo date("l jS \of F Y ", strtotime($producer->harvest_date)) ?></td>
 										</tr>
 										<!-- <tr class="techSpecRow">
 											<td class="techSpecTD1">Dimensions:</td>
