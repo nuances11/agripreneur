@@ -57,9 +57,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a class="brand" href="<?php echo base_url(); ?>">
 							<img src="<?php echo base_url(); ?>assets/images/agrilogo-2.png" alt="Agripreneur" />
 						</a>
-						<form class="form-inline navbar-search" method="post" action="products.html">
-							<input id="srchFld" class="srchTxt" type="text" />
-							<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+						<form class="form-inline navbar-search" method="post">
+							<input id="search_field" class="srchTxt" type="text" />
+							<button type="button" id="search_button" class="btn btn-primary" data-url="<?php echo base_url() ;?>">Go</button>
 						</form>
 						<ul id="topMenu" class="nav pull-right">
 							<?php

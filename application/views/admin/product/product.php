@@ -76,7 +76,16 @@
 													?>
 													>
 												</td>
-												<td><?php echo $product->name ?></td>
+												<td>
+													<?php echo $product->name ?>
+													<?php 
+													if ($product->threshold >= $product->quantity && $product->quantity > 0) {
+														echo '<span class="badge badge-warning">Re-stock needed</span>';
+													}elseif($product->quantity <= 0){
+														echo '<span class="badge badge-danger">Out of Stock</span>';
+													}
+													?>
+												</td>
 												<td>
 													<?php
 													if($product->category_name){

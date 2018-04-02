@@ -177,6 +177,17 @@ $(function() {
         }
     }
 
+    $('#search_button').click(function(){
+        var base_url = $(this).data('url');
+        var text = $('#search_field').val();
+        console.log(text);
+        if (text == '') {
+            alert('Empty Search Field');
+        }else{
+            window.location.href = base_url + 'products/all?search=' + text;
+        }
+    })
+
     $('#product_sort').on('change', function() {
         var category = $(this).data('category');
         var subcategory = $(this).data('subcategory');
@@ -187,6 +198,7 @@ $(function() {
         if (type == 'all') {
             window.location.href = base_url + 'products/all?q=' + filter;
         } else {
+            console.log(filter);
             if (filter == 'nearest_5') {
                 if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(showPosition);

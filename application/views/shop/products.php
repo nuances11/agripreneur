@@ -1,3 +1,6 @@
+<pre>
+    <?php //print_r($products);?>
+</pre>
 <div id="mainBody">
 	<div class="container">
 		<div class="row">
@@ -10,7 +13,14 @@
 					</li>
 					<li class="active">Products</li>
 				</ul>
-				<h3> Product List
+				<h3> 
+                    <?php 
+                        if (isset($_GET['search']) && !empty($_GET['search'])) {
+                            echo 'Search result for "' . $_GET['search'] . '"';
+                        }else{
+                            echo 'Product List';
+                        }
+                    ?>
                     <small class="pull-right"> <?php if(!empty($products)){echo count($products);}else{echo '0'; } ;?> product(s) are available </small>
                 </h3>
                 <hr class="soft" />
@@ -18,21 +28,30 @@
                     if(!empty($products))
                     {
                         ?>
-                            <form class="form-horizontal span6">
-                                <div class="control-group">
-                                    <label class="control-label alignL">Sort By </label>
-                                    <select id="product_sort" data-type="<?php echo $this->uri->segment(2);?>" data-url="<?php echo base_url();?>" data-subcategory ="<?php echo $this->uri->segment(5);?>" data-category ="<?php echo $this->uri->segment(3);?>">
-                                        <option value="">Choose an Option</option>
-                                        <option value="date_asc">Date Created (Asc)</option>
-                                        <option value="date_desc">Date Created (Desc)</option>
-                                        <option value="name_asc">Name (Asc)</option>
-                                        <option value="name_desc">Name (Desc)</option>
-                                        <option value="price_asc">Price (Asc)</option>
-                                        <option value="price_desc">Price (Desc)</option>
-                                        <option value="nearest_5">Nearest (5mi)</option>
-                                    </select>
-                                </div>
-                            </form>
+                            <?php 
+                                if (isset($_GET['search']) && !empty($_GET['search'])) {
+                                    echo '&nbsp;';
+                                }else{
+                                    ?>
+                                    <form class="form-horizontal span6">
+                                        <div class="control-group">
+                                            <label class="control-label alignL">Sort By </label>
+                                            <select id="product_sort" data-type="<?php echo $this->uri->segment(2);?>" data-url="<?php echo base_url();?>" data-subcategory ="<?php echo $this->uri->segment(5);?>" data-category ="<?php echo $this->uri->segment(3);?>">
+                                                <option value="">Choose an Option</option>
+                                                <option value="date_asc">Date Created (Asc)</option>
+                                                <option value="date_desc">Date Created (Desc)</option>
+                                                <option value="name_asc">Name (Asc)</option>
+                                                <option value="name_desc">Name (Desc)</option>
+                                                <option value="price_asc">Price (Asc)</option>
+                                                <option value="price_desc">Price (Desc)</option>
+                                                <!-- <option value="nearest_5">Nearest (5mi)</option> -->
+                                            </select>
+                                        </div>
+                                    </form>
+                                    <?php
+                                }
+                            ?>
+                            
                             <div id="myTab" class="pull-right">
                                 <a href="#listView" data-toggle="tab">
                                     <span class="btn btn-large">
