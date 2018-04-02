@@ -62,6 +62,28 @@ class Admin extends CI_Controller {
 
     function user_add()
     {
+        $extra_js = '
+            google.maps.event.addDomListener(window, "load", function() {
+                var places = new google.maps.places.Autocomplete(document.getElementById("address"));
+                places.setComponentRestrictions({ "country": ["ph"] });
+                var longInput = document.getElementById("long");
+                var latInput = document.getElementById("lat");
+                google.maps.event.addListener(places, "place_changed", function() {
+                    var place = places.getPlace();
+                    var address = place.formatted_address;
+                    var latitude = place.geometry.location.lat();
+                    var longitude = place.geometry.location.lng();
+        
+                    longInput.value = longitude;
+                    latInput.value = latitude;
+        
+        
+                });
+            });
+		';
+
+        $this->template->extra_js($extra_js);
+
         $this->template->load_sub('user', $this->user_model->get_user_data($this->session->userdata('id')));
         $this->template->load('admin/user_add');
     }
@@ -114,7 +136,26 @@ class Admin extends CI_Controller {
 
             $res = $this->user_model->save_user($data);
             if($res){
-                echo json_encode(array("success" => TRUE));
+                $number = $this->input->post('mobile');
+                $message = 'Your Account has been created, Login Credentials: Email:' . $this->input->post('email') . ' Pass: ' . $this->input->post('password') . 'Thank you.';
+
+                $sms = $this->itexmo($number, $message, SMS_API_KEY);
+
+                if ($sms == ""){
+                    $errors['sms_error'] = "iTexMo: No response from server!!!
+                    Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.
+                    Please CONTACT US for help. ";
+                }else if ($sms == 0){
+                    $errors['sms_success'] = "Message Sent!";
+                    $errors['success'] = TRUE;
+                    $errors['product'] = 'Product updated';
+                    
+                }
+                else{
+                    $errors['sms_error'] = "Error Num ". $sms . " was encountered!";
+                }
+                echo json_encode($errors);
+                //echo json_encode(array("success" => TRUE));
             }else{
                 echo json_encode(array("success" => FALSE));
             }
@@ -123,6 +164,28 @@ class Admin extends CI_Controller {
 
     function user_edit($id)
     {
+        $extra_js = '
+            google.maps.event.addDomListener(window, "load", function() {
+                var places = new google.maps.places.Autocomplete(document.getElementById("address"));
+                places.setComponentRestrictions({ "country": ["ph"] });
+                var longInput = document.getElementById("long");
+                var latInput = document.getElementById("lat");
+                google.maps.event.addListener(places, "place_changed", function() {
+                    var place = places.getPlace();
+                    var address = place.formatted_address;
+                    var latitude = place.geometry.location.lat();
+                    var longitude = place.geometry.location.lng();
+        
+                    longInput.value = longitude;
+                    latInput.value = latitude;
+        
+        
+                });
+            });
+		';
+
+        $this->template->extra_js($extra_js);
+
         $this->template->load_sub('user', $this->user_model->get_user_data($id));
 		$this->template->load('admin/edit_profile');
     }
