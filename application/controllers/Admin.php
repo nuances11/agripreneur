@@ -40,6 +40,7 @@ class Admin extends CI_Controller {
 
     function index()
 	{
+        $this->template->load_sub('products', $this->product_model->get_product_stat());
 
         $this->template->load_sub('sales_count', $this->transaction_model->get_sales_count());
         $this->template->load_sub('user_count', $this->user_model->get_user_count());

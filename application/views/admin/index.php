@@ -53,7 +53,7 @@
         </div>
     </div>
 </section>
-<section class="section pt-10">
+<!-- <section class="section pt-10">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -65,11 +65,11 @@
                     </div>
                     <div class="panel-body">
                         <!-- <div id="production-chart" class="op-chart"></div> -->
-                        <canvas id="myChart" width="300" height="300"></canvas>
+                        <!--<canvas id="myChart" width="300" height="300"></canvas>
                     </div>
                 </div>
                 <!-- /.panel -->
-            </div>
+            <!--</div>
         </div>
     </div>
-</section>
+</section> -->

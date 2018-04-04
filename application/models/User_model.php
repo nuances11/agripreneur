@@ -127,18 +127,26 @@ class User_model extends CI_Model {
     function get_rand_products()
 	{
         $curr_date = date("Y-m-d");
-		$query = $this->db->query("
-            SELECT
-                p.*,
-                u.unit_identifier
-            FROM tbl_products p
-            LEFT JOIN tbl_unit u
-            ON p.unit = u.unit_id
-            WHERE availability_end >= NOW()
-            AND p.status = 1
-            ORDER BY rand()
-            LIMIT 1
+		// $query = $this->db->query("
+        //     SELECT
+        //         p.*,
+        //         u.unit_identifier
+        //     FROM tbl_products p
+        //     LEFT JOIN tbl_unit u
+        //     ON p.unit = u.unit_id
+        //     WHERE availability_end >= NOW()
+        //     AND p.status = 1
+        //     ORDER BY rand()
+        //     LIMIT 1
+        // ");
+        $query = $this->db->query("
+            select  product_id, count(*) as c 
+            from tbl_product_per_transaction
+            group by product_id having c > 1
+            order by c desc
         ");
+        print_r($query->result());
+        exit;
         if($query->num_rows()){
 			return $query->result();
 		}

@@ -19,10 +19,28 @@ class Product_model extends CI_Model {
         return [];
     }
 
+    function get_product_stat()
+    {
+        $data = array();
+        $query = $this->db->query("
+            SELECT
+                *
+            FROM tbl_products
+        ");
+        
+        if ($query->num_rows() > 0) {
+            
+            return $query->result();
+        }
+        return [];
+    }
+
     function fetch_all_products()
     {
         $query = $this->db->query("
             SELECT
+                p.threshold,
+                p.quantity,
                 p.product_id,
                 p.image,
                 p.name,
